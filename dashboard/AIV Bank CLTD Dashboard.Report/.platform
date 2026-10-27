@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "AIV Bank CLTD Dashboard"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "32dc9db8-a396-4aef-85cf-b624f7b3d1c8"
+  }
+}

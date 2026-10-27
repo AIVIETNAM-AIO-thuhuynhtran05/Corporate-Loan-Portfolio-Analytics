@@ -1,0 +1,74 @@
+table dim_segment
+	lineageTag: ec286347-e3bd-4bd5-aa1b-a59acc49b293
+
+	column segment_id
+		dataType: int64
+		formatString: 0
+		lineageTag: f0e07513-db20-4323-8a2e-cb6052eee393
+		summarizeBy: none
+		sourceColumn: segment_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column segment
+		dataType: string
+		lineageTag: 271886cc-a537-4be3-8425-eb44f0388ede
+		summarizeBy: none
+		sourceColumn: segment
+		sortByColumn: segment_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column description
+		dataType: string
+		lineageTag: e30f5638-3995-4211-b728-5b88fd84bf16
+		summarizeBy: none
+		sourceColumn: description
+
+		annotation SummarizationSetBy = Automatic
+
+	column division
+		dataType: string
+		lineageTag: 0ea36a84-370a-4dbf-bfd9-1b055a381ca4
+		summarizeBy: none
+		sourceColumn: division
+
+		annotation SummarizationSetBy = Automatic
+
+	column segment_lv2
+		dataType: string
+		lineageTag: 2972a959-a66f-4a86-a114-32b5881bd33d
+		summarizeBy: none
+		sourceColumn: segment_lv2
+
+		annotation SummarizationSetBy = Automatic
+
+	column revenue_min_bn_vnd
+		dataType: int64
+		formatString: 0
+		lineageTag: 45da8a2a-ce65-4a7f-92c5-9fbc1495397e
+		summarizeBy: none
+		sourceColumn: revenue_min_bn_vnd
+
+		annotation SummarizationSetBy = Automatic
+
+	column revenue_max_bn_vnd
+		dataType: int64
+		formatString: 0
+		lineageTag: e87e80be-294d-4f6a-ab64-f682f914f926
+		summarizeBy: none
+		sourceColumn: revenue_max_bn_vnd
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_segment = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents("D:\eDA\Module_2\data-20261014T075931Z-1-001\data\AIV_Bank_KHDN_Dataset.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "dim_segment", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"segment_id", Int64.Type}, {"segment", type text}, {"description", type text}, {"division", type text}, {"segment_lv2", type text}, {"revenue_min_bn_vnd", Int64.Type}, {"revenue_max_bn_vnd", Int64.Type}})
+				in
+				  #"Changed column type"
+

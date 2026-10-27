@@ -1,0 +1,20 @@
+table 'Trục tháng'
+	lineageTag: 870d6a90-0ad8-4bc6-8abe-202efa8ecafc
+
+	column Tháng
+		formatString: MM/yyyy
+		lineageTag: 41c193a1-bae6-45e7-8688-0dc46b9f8e43
+		isNameInferred
+		sourceColumn: [Tháng]
+
+	column 'Nhãn tháng'
+		lineageTag: bfb59d5f-11d6-494e-83f9-a464eed59647
+		isNameInferred
+		sourceColumn: [Nhãn tháng]
+		sortByColumn: Tháng
+
+	partition 'Trục tháng' = calculated
+		source =
+				VAR t = DISTINCT ( SELECTCOLUMNS ( FILTER ( dim_date, dim_date[is_reportable] ), "Tháng", dim_date[month_end_date] ) )
+				RETURN ADDCOLUMNS ( t, "Nhãn tháng", FORMAT ( [Tháng], "MM/yy" ) )
+

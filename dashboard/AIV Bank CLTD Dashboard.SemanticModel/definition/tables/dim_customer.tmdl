@@ -1,0 +1,177 @@
+table dim_customer
+	lineageTag: 51208e6e-f494-43cf-9d56-9422fb2aa068
+
+	column cif
+		dataType: string
+		lineageTag: 4db27450-42d1-4e95-9eb7-3ea74f9608bc
+		summarizeBy: none
+		sourceColumn: cif
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_name
+		dataType: string
+		lineageTag: 43c6ad77-6fb8-4e58-8183-78944f714be6
+		summarizeBy: none
+		sourceColumn: customer_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column legal_form
+		dataType: string
+		lineageTag: 906516a9-e083-454c-808a-64971058fa4c
+		summarizeBy: none
+		sourceColumn: legal_form
+
+		annotation SummarizationSetBy = Automatic
+
+	column segment_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 9189ff56-5a6c-455d-bcde-1aa63a5749e4
+		summarizeBy: none
+		sourceColumn: segment_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column industry_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 6daf6279-72f0-4898-b92b-8d144efdcf16
+		summarizeBy: none
+		sourceColumn: industry_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column home_branch_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 9cd97352-d02d-475c-b20e-03f15b09d37d
+		summarizeBy: sum
+		sourceColumn: home_branch_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column cust_type
+		dataType: string
+		lineageTag: 2f46ba7e-e134-41b2-86d8-e4034424703a
+		summarizeBy: none
+		sourceColumn: cust_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_since
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 12dca5c6-87a9-4adb-83c6-b4d9ed5f3281
+		summarizeBy: none
+		sourceColumn: customer_since
+
+		variation Variation
+			isDefault
+			relationship: 1832b085-25fb-4820-abf5-430629aeee62
+			defaultHierarchy: LocalDateTable_7a2acca5-b4a5-45d1-908e-23a7eb420b77.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column established_year
+		dataType: int64
+		formatString: 0
+		lineageTag: f0191fea-7194-47fc-9778-58b8db6f2629
+		summarizeBy: sum
+		sourceColumn: established_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column province
+		dataType: string
+		lineageTag: 588815aa-4381-4a4a-9cd6-e11593fff579
+		summarizeBy: none
+		sourceColumn: province
+
+		annotation SummarizationSetBy = Automatic
+
+	column employees
+		dataType: int64
+		formatString: 0
+		lineageTag: 13ed80ea-f8d5-49e7-800b-f166833e1cc1
+		summarizeBy: sum
+		sourceColumn: employees
+
+		annotation SummarizationSetBy = Automatic
+
+	column annual_revenue_vnd
+		dataType: int64
+		formatString: 0
+		lineageTag: 762ec2e0-321d-4ccf-a9a2-c7f07a3754be
+		summarizeBy: sum
+		sourceColumn: annual_revenue_vnd
+
+		annotation SummarizationSetBy = Automatic
+
+	column credit_rating
+		dataType: string
+		lineageTag: b84fe941-34b0-4bb3-a8a3-1de15e7a6832
+		summarizeBy: none
+		sourceColumn: credit_rating
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_exporter
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 1eacf3cc-c901-4e79-bd83-b604b37a391f
+		summarizeBy: none
+		sourceColumn: is_exporter
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_fdi
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 818a1ec4-c053-45da-be7b-8d1355760994
+		summarizeBy: none
+		sourceColumn: is_fdi
+
+		annotation SummarizationSetBy = Automatic
+
+	column relationship_manager_code
+		dataType: string
+		lineageTag: ec8af1b5-1b3b-4f02-9036-ec8aa5105b44
+		summarizeBy: none
+		sourceColumn: relationship_manager_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column onboarding_channel
+		dataType: string
+		lineageTag: 8074b8c6-6ee9-4dd2-835b-8ee4389bde90
+		summarizeBy: none
+		sourceColumn: onboarding_channel
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_status
+		dataType: string
+		lineageTag: 07fa6e10-ca8f-4196-81c6-e92fa21d9a44
+		summarizeBy: none
+		sourceColumn: customer_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Khách hàng' = SUBSTITUTE ( dim_customer[customer_name], "Công ty ", "" )
+		dataType: string
+
+	partition dim_customer = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents("D:\eDA\Module_2\data-20261014T075931Z-1-001\data\AIV_Bank_KHDN_Dataset.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "dim_customer", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"cif", type text}, {"customer_name", type text}, {"legal_form", type text}, {"segment_id", Int64.Type}, {"industry_id", Int64.Type}, {"home_branch_id", Int64.Type}, {"cust_type", type text}, {"customer_since", type date}, {"established_year", Int64.Type}, {"province", type text}, {"employees", Int64.Type}, {"annual_revenue_vnd", Int64.Type}, {"credit_rating", type text}, {"is_exporter", type logical}, {"is_fdi", type logical}, {"relationship_manager_code", type text}, {"onboarding_channel", type text}, {"customer_status", type text}})
+				in
+				  #"Changed column type"
+

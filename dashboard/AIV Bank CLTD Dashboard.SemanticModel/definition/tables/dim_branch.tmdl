@@ -1,0 +1,84 @@
+table dim_branch
+	lineageTag: 51f0b732-3ea1-4cdb-a382-89faf6283965
+
+	column branch_id
+		dataType: int64
+		formatString: 0
+		lineageTag: a2eb5a88-6e8c-4b57-91d5-34a371e54c15
+		summarizeBy: none
+		sourceColumn: branch_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column branch_code
+		dataType: string
+		lineageTag: f0e41aa7-c8e8-4688-9269-18504ccf21d6
+		summarizeBy: none
+		sourceColumn: branch_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column branch_name
+		dataType: string
+		lineageTag: d6a445dd-61f6-4998-85de-3dc9f068d0fc
+		summarizeBy: none
+		sourceColumn: branch_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		lineageTag: 097212b0-b6cb-4692-86ba-221403849bc0
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column region
+		dataType: string
+		lineageTag: d3ad0f04-3bbe-4b87-823b-57e59c7dee16
+		summarizeBy: none
+		sourceColumn: region
+
+		annotation SummarizationSetBy = Automatic
+
+	column branch_type
+		dataType: string
+		lineageTag: 8066df6c-d29e-4f15-9a31-71459dcc40ca
+		summarizeBy: none
+		sourceColumn: branch_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column open_year
+		dataType: int64
+		formatString: 0
+		lineageTag: 4784f054-10bc-486f-b674-eaaa460d5c4d
+		summarizeBy: sum
+		sourceColumn: open_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column manager_code
+		dataType: string
+		lineageTag: 1476b931-64b0-49c5-9804-20ff6806d001
+		summarizeBy: none
+		sourceColumn: manager_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column ĐVKD = SUBSTITUTE ( dim_branch[branch_name], "AIV Bank - ", "" )
+		dataType: string
+		lineageTag: edf72b8e-c1c7-4ae3-8b48-a7a64d993bc2
+
+	partition dim_branch = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents("D:\eDA\Module_2\data-20261014T075931Z-1-001\data\AIV_Bank_KHDN_Dataset.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "dim_branch", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"branch_id", Int64.Type}, {"branch_code", type text}, {"branch_name", type text}, {"city", type text}, {"region", type text}, {"branch_type", type text}, {"open_year", Int64.Type}, {"manager_code", type text}})
+				in
+				  #"Changed column type"
+

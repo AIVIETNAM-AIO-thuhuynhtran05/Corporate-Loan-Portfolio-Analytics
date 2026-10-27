@@ -1,0 +1,39 @@
+table dim_product
+	lineageTag: be0135aa-382a-45fa-8dc2-224fe6ca6762
+
+	column product_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 42a0e6fb-608d-42dd-bbb1-0cf957fbc3ed
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_code
+		dataType: string
+		lineageTag: 85fb4f89-39b0-4807-9ea8-b4f41942c6c3
+		summarizeBy: none
+		sourceColumn: product_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_lv2
+		dataType: string
+		lineageTag: 46abff08-6650-441c-96ad-2fa9a0d92e8f
+		summarizeBy: none
+		sourceColumn: product_lv2
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_product = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents("D:\eDA\Module_2\data-20261014T075931Z-1-001\data\AIV_Bank_KHDN_Dataset.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "dim_product", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"product_id", Int64.Type}, {"product_code", type text}, {"product_lv2", type text}})
+				in
+				  #"Changed column type"
+

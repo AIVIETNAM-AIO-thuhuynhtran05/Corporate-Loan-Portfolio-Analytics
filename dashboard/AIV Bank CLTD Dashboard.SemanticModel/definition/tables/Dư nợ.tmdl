@@ -1,0 +1,535 @@
+table 'Dư nợ'
+	lineageTag: df4f3f43-9ac6-44c1-b811-ff5173b1ac8d
+
+	measure 'Dư nợ' =
+			
+			VAR d = MAX ( dim_date[month_end_date] )
+			RETURN CALCULATE ( SUM ( fact_loan_balance[balance_vnd] ), REMOVEFILTERS ( dim_date ), dim_date[date] = d )
+		formatString: 0
+		lineageTag: 9218f940-5190-46a2-b63a-14531f7cf7de
+
+	measure 'Dư nợ LM' =
+			
+			VAR d = MAX ( dim_date[prev_month_end] )
+			RETURN CALCULATE ( SUM ( fact_loan_balance[balance_vnd] ), REMOVEFILTERS ( dim_date ), dim_date[date] = d )
+		formatString: 0
+		lineageTag: 0537f656-3d49-4645-8b8b-02496f227e87
+
+	measure 'Dư nợ LY' =
+			
+			VAR d = MAX ( dim_date[same_month_prev_year_end] )
+			RETURN CALCULATE ( SUM ( fact_loan_balance[balance_vnd] ), REMOVEFILTERS ( dim_date ), dim_date[date] = d )
+		formatString: 0
+		lineageTag: 08d33886-d9c4-4bf9-9001-9ed3b48a806c
+
+	measure 'Dư nợ OD2' = CALCULATE ( [Dư nợ],    dim_debt_group[is_od2] = TRUE () )
+		formatString: 0
+		lineageTag: 1d4a11e3-368a-4b1d-b26f-0104d49eab57
+
+	measure 'Dư nợ OD2 LM' = CALCULATE ( [Dư nợ LM], dim_debt_group[is_od2] = TRUE () )
+		formatString: 0
+		lineageTag: 00cb5b93-982f-4f4c-ba0d-2725c54ada83
+
+	measure 'Dư nợ OD2 LY' = CALCULATE ( [Dư nợ LY], dim_debt_group[is_od2] = TRUE ())
+		formatString: 0
+		lineageTag: 3a700343-056e-44f6-8cef-1c1f01cb3bee
+
+	measure 'Dư nợ OD35' = CALCULATE ( [Dư nợ],    dim_debt_group[is_od35] = TRUE () )
+		formatString: 0
+		lineageTag: 0fdaed41-86f4-4d86-9d47-b9a9a3787a6b
+
+	measure 'Dư nợ OD35 LM' = CALCULATE ( [Dư nợ LM], dim_debt_group[is_od35] = TRUE () )
+		formatString: 0
+		lineageTag: 5111db8d-0538-463f-90e2-e315321a032f
+
+	measure 'Dư nợ OD35 LY' = CALCULATE ( [Dư nợ LY], dim_debt_group[is_od35] = TRUE () )
+		formatString: 0
+		lineageTag: 966e8af8-474e-442b-8790-2bfeb33f0f7e
+
+	measure 'Dư nợ (tỷ)' = DIVIDE ( [Dư nợ], 1e9 )
+		formatString: #,0.0
+		displayFolder: Giá trị (tỷ)
+
+	measure 'Dư nợ LM (tỷ)' = DIVIDE ( [Dư nợ LM], 1e9 )
+		formatString: #,0.0
+		displayFolder: Giá trị (tỷ)
+
+	measure 'Dư nợ LY (tỷ)' = DIVIDE ( [Dư nợ LY], 1e9 )
+		formatString: #,0.0
+		displayFolder: Giá trị (tỷ)
+
+	measure 'NII tháng' =
+			VAR d = MAX ( dim_date[month_end_date] )
+			RETURN DIVIDE ( CALCULATE ( SUM ( fact_income_monthly[nii_mtd] ), TREATAS ( { d }, fact_income_monthly[period_end_date] ) ), 1e9 )
+		formatString: #,0.0
+		displayFolder: Giá trị (tỷ)
+
+	measure 'NII YTD' =
+			VAR d = MAX ( dim_date[month_end_date] )
+			VAR s = DATE ( YEAR ( d ), 1, 1 )
+			RETURN
+			    DIVIDE (
+			        CALCULATE ( SUM ( fact_income_monthly[nii_mtd] ), fact_income_monthly[period_end_date] >= s, fact_income_monthly[period_end_date] <= d ),
+			        1e9
+			    )
+		formatString: #,0.0
+		displayFolder: Giá trị (tỷ)
+
+	measure 'TOI tháng' =
+			VAR d = MAX ( dim_date[month_end_date] )
+			RETURN DIVIDE ( CALCULATE ( SUM ( fact_income_monthly[toi_mtd] ), TREATAS ( { d }, fact_income_monthly[period_end_date] ) ), 1e9 )
+		formatString: #,0.0
+		displayFolder: Giá trị (tỷ)
+
+	measure 'TOI YTD' =
+			VAR d = MAX ( dim_date[month_end_date] )
+			VAR s = DATE ( YEAR ( d ), 1, 1 )
+			RETURN
+			    DIVIDE (
+			        CALCULATE ( SUM ( fact_income_monthly[toi_mtd] ), fact_income_monthly[period_end_date] >= s, fact_income_monthly[period_end_date] <= d ),
+			        1e9
+			    )
+		formatString: #,0.0
+		displayFolder: Giá trị (tỷ)
+
+	measure 'DNBQ YTD' =
+			VAR d = MAX ( dim_date[month_end_date] )
+			VAR s = DATE ( YEAR ( d ), 1, 1 )
+			RETURN
+			    DIVIDE (
+			        CALCULATE ( SUM ( fact_income_monthly[avg_balance_vnd] ), fact_income_monthly[period_end_date] >= s, fact_income_monthly[period_end_date] <= d ),
+			        MONTH ( d ) * 1e9
+			    )
+		formatString: #,0.0
+		displayFolder: Giá trị (tỷ)
+
+	measure 'NII YTD LM' =
+			VAR d = MAX ( dim_date[month_end_date] )
+			RETURN
+			    IF (
+			        MONTH ( d ) > 1,
+			        CALCULATE ( [NII YTD], REMOVEFILTERS ( dim_date ), dim_date[month_end_date] = EOMONTH ( d, -1 ) )
+			    )
+		formatString: #,0.0
+		displayFolder: Giá trị (tỷ)
+
+	measure 'NII YTD LY' =
+			VAR d = MAX ( dim_date[month_end_date] )
+			RETURN CALCULATE ( [NII YTD], REMOVEFILTERS ( dim_date ), dim_date[month_end_date] = EOMONTH ( d, -12 ) )
+		formatString: #,0.0
+		displayFolder: Giá trị (tỷ)
+
+	measure 'TOI YTD LM' =
+			VAR d = MAX ( dim_date[month_end_date] )
+			RETURN
+			    IF (
+			        MONTH ( d ) > 1,
+			        CALCULATE ( [TOI YTD], REMOVEFILTERS ( dim_date ), dim_date[month_end_date] = EOMONTH ( d, -1 ) )
+			    )
+		formatString: #,0.0
+		displayFolder: Giá trị (tỷ)
+
+	measure 'TOI YTD LY' =
+			VAR d = MAX ( dim_date[month_end_date] )
+			RETURN CALCULATE ( [TOI YTD], REMOVEFILTERS ( dim_date ), dim_date[month_end_date] = EOMONTH ( d, -12 ) )
+		formatString: #,0.0
+		displayFolder: Giá trị (tỷ)
+
+	measure 'DNBQ YTD LM' =
+			VAR d = MAX ( dim_date[month_end_date] )
+			RETURN
+			    IF (
+			        MONTH ( d ) > 1,
+			        CALCULATE ( [DNBQ YTD], REMOVEFILTERS ( dim_date ), dim_date[month_end_date] = EOMONTH ( d, -1 ) )
+			    )
+		formatString: #,0.0
+		displayFolder: Giá trị (tỷ)
+
+	measure 'DNBQ YTD LY' =
+			VAR d = MAX ( dim_date[month_end_date] )
+			RETURN CALCULATE ( [DNBQ YTD], REMOVEFILTERS ( dim_date ), dim_date[month_end_date] = EOMONTH ( d, -12 ) )
+		formatString: #,0.0
+		displayFolder: Giá trị (tỷ)
+
+	measure 'KPI Dư nợ' = IF ( ISBLANK ( [Dư nợ (tỷ)] ), "–", FORMAT ( [Dư nợ (tỷ)], "#,0.0", "vi-VN" ) )
+		displayFolder: KPI hiển thị
+
+	measure 'Dư nợ Δ tháng (giá trị)' = DIVIDE ( [Dư nợ (tỷ)] - [Dư nợ LM (tỷ)], [Dư nợ LM (tỷ)] )
+		formatString: 0.0%
+		displayFolder: Δ giá trị
+
+	measure 'Dư nợ Δ tháng' =
+			VAR d = [Dư nợ Δ tháng (giá trị)]
+			RETURN IF ( NOT ISBLANK ( d ), IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ), "0.0%", "vi-VN" ) & " so với cuối tháng trước" )
+		displayFolder: KPI hiển thị
+
+	measure 'Màu Dư nợ Δ tháng' =
+			VAR d = [Dư nợ Δ tháng (giá trị)]
+			RETURN IF ( ISBLANK ( d ) || d = 0, "#5F5E5A", IF ( d > 0, "#447A2A", "#A32D2D" ) )
+		displayFolder: Màu
+
+	measure 'Dư nợ Δ cùng kỳ (giá trị)' = DIVIDE ( [Dư nợ (tỷ)] - [Dư nợ LY (tỷ)], [Dư nợ LY (tỷ)] )
+		formatString: 0.0%
+		displayFolder: Δ giá trị
+
+	measure 'Dư nợ Δ cùng kỳ' =
+			VAR d = [Dư nợ Δ cùng kỳ (giá trị)]
+			RETURN IF ( NOT ISBLANK ( d ), IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ), "0.0%", "vi-VN" ) & " so với cùng tháng năm trước" )
+		displayFolder: KPI hiển thị
+
+	measure 'Màu Dư nợ Δ cùng kỳ' =
+			VAR d = [Dư nợ Δ cùng kỳ (giá trị)]
+			RETURN IF ( ISBLANK ( d ) || d = 0, "#5F5E5A", IF ( d > 0, "#447A2A", "#A32D2D" ) )
+		displayFolder: Màu
+
+	measure 'KPI DNBQ YTD' = IF ( ISBLANK ( [DNBQ YTD] ), "–", FORMAT ( [DNBQ YTD], "#,0.0", "vi-VN" ) )
+		displayFolder: KPI hiển thị
+
+	measure 'DNBQ YTD Δ tháng (giá trị)' = DIVIDE ( [DNBQ YTD] - [DNBQ YTD LM], [DNBQ YTD LM] )
+		formatString: 0.0%
+		displayFolder: Δ giá trị
+
+	measure 'DNBQ YTD Δ tháng' =
+			VAR d = [DNBQ YTD Δ tháng (giá trị)]
+			RETURN IF ( NOT ISBLANK ( d ), IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ), "0.0%", "vi-VN" ) & " so với YTD cuối tháng trước" )
+		displayFolder: KPI hiển thị
+
+	measure 'Màu DNBQ YTD Δ tháng' =
+			VAR d = [DNBQ YTD Δ tháng (giá trị)]
+			RETURN IF ( ISBLANK ( d ) || d = 0, "#5F5E5A", IF ( d > 0, "#447A2A", "#A32D2D" ) )
+		displayFolder: Màu
+
+	measure 'DNBQ YTD Δ cùng kỳ (giá trị)' = DIVIDE ( [DNBQ YTD] - [DNBQ YTD LY], [DNBQ YTD LY] )
+		formatString: 0.0%
+		displayFolder: Δ giá trị
+
+	measure 'DNBQ YTD Δ cùng kỳ' =
+			VAR d = [DNBQ YTD Δ cùng kỳ (giá trị)]
+			RETURN IF ( NOT ISBLANK ( d ), IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ), "0.0%", "vi-VN" ) & " so với cùng kỳ năm trước" )
+		displayFolder: KPI hiển thị
+
+	measure 'Màu DNBQ YTD Δ cùng kỳ' =
+			VAR d = [DNBQ YTD Δ cùng kỳ (giá trị)]
+			RETURN IF ( ISBLANK ( d ) || d = 0, "#5F5E5A", IF ( d > 0, "#447A2A", "#A32D2D" ) )
+		displayFolder: Màu
+
+	measure 'KPI NII YTD' = IF ( ISBLANK ( [NII YTD] ), "–", FORMAT ( [NII YTD], "#,0.0", "vi-VN" ) )
+		displayFolder: KPI hiển thị
+
+	measure 'NII YTD Δ tháng (giá trị)' = DIVIDE ( [NII YTD] - [NII YTD LM], [NII YTD LM] )
+		formatString: 0.0%
+		displayFolder: Δ giá trị
+
+	measure 'NII YTD Δ tháng' =
+			VAR d = [NII YTD Δ tháng (giá trị)]
+			RETURN IF ( NOT ISBLANK ( d ), IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ), "0.0%", "vi-VN" ) & " so với YTD cuối tháng trước" )
+		displayFolder: KPI hiển thị
+
+	measure 'Màu NII YTD Δ tháng' =
+			VAR d = [NII YTD Δ tháng (giá trị)]
+			RETURN IF ( ISBLANK ( d ) || d = 0, "#5F5E5A", IF ( d > 0, "#447A2A", "#A32D2D" ) )
+		displayFolder: Màu
+
+	measure 'NII YTD Δ cùng kỳ (giá trị)' = DIVIDE ( [NII YTD] - [NII YTD LY], [NII YTD LY] )
+		formatString: 0.0%
+		displayFolder: Δ giá trị
+
+	measure 'NII YTD Δ cùng kỳ' =
+			VAR d = [NII YTD Δ cùng kỳ (giá trị)]
+			RETURN IF ( NOT ISBLANK ( d ), IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ), "0.0%", "vi-VN" ) & " so với cùng kỳ năm trước" )
+		displayFolder: KPI hiển thị
+
+	measure 'Màu NII YTD Δ cùng kỳ' =
+			VAR d = [NII YTD Δ cùng kỳ (giá trị)]
+			RETURN IF ( ISBLANK ( d ) || d = 0, "#5F5E5A", IF ( d > 0, "#447A2A", "#A32D2D" ) )
+		displayFolder: Màu
+
+	measure 'KPI TOI YTD' = IF ( ISBLANK ( [TOI YTD] ), "–", FORMAT ( [TOI YTD], "#,0.0", "vi-VN" ) )
+		displayFolder: KPI hiển thị
+
+	measure 'TOI YTD Δ tháng (giá trị)' = DIVIDE ( [TOI YTD] - [TOI YTD LM], [TOI YTD LM] )
+		formatString: 0.0%
+		displayFolder: Δ giá trị
+
+	measure 'TOI YTD Δ tháng' =
+			VAR d = [TOI YTD Δ tháng (giá trị)]
+			RETURN IF ( NOT ISBLANK ( d ), IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ), "0.0%", "vi-VN" ) & " so với YTD cuối tháng trước" )
+		displayFolder: KPI hiển thị
+
+	measure 'Màu TOI YTD Δ tháng' =
+			VAR d = [TOI YTD Δ tháng (giá trị)]
+			RETURN IF ( ISBLANK ( d ) || d = 0, "#5F5E5A", IF ( d > 0, "#447A2A", "#A32D2D" ) )
+		displayFolder: Màu
+
+	measure 'TOI YTD Δ cùng kỳ (giá trị)' = DIVIDE ( [TOI YTD] - [TOI YTD LY], [TOI YTD LY] )
+		formatString: 0.0%
+		displayFolder: Δ giá trị
+
+	measure 'TOI YTD Δ cùng kỳ' =
+			VAR d = [TOI YTD Δ cùng kỳ (giá trị)]
+			RETURN IF ( NOT ISBLANK ( d ), IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ), "0.0%", "vi-VN" ) & " so với cùng kỳ năm trước" )
+		displayFolder: KPI hiển thị
+
+	measure 'Màu TOI YTD Δ cùng kỳ' =
+			VAR d = [TOI YTD Δ cùng kỳ (giá trị)]
+			RETURN IF ( ISBLANK ( d ) || d = 0, "#5F5E5A", IF ( d > 0, "#447A2A", "#A32D2D" ) )
+		displayFolder: Màu
+
+	measure 'Tiêu đề Hình 4' = "Hình 4: Cơ cấu dư nợ theo phân khúc tại " & [Ngày báo cáo]
+		displayFolder: KPI hiển thị
+
+	measure 'Tiêu đề Hình 5' = "Hình 5: Dư nợ theo ngành tại " & [Ngày báo cáo] & " (tỷ đồng)"
+		displayFolder: KPI hiển thị
+
+	measure 'Tiêu đề Hình 7' = "Hình 7: Top 10 ĐVKD theo dư nợ tại " & [Ngày báo cáo] & " (tỷ đồng)"
+		displayFolder: KPI hiển thị
+
+	measure 'Tiêu đề Hình 8' = "Hình 8: NII YTD theo phân khúc đến " & [Ngày báo cáo]
+		displayFolder: KPI hiển thị
+
+	measure 'Tiêu đề Hình 10' = "Hình 10: Top 10 khách hàng theo NII YTD đến " & [Ngày báo cáo] & " (tỷ đồng)"
+		displayFolder: KPI hiển thị
+
+	measure 'Tiêu đề Hình 11' = "Hình 11: Top 10 ĐVKD theo NII YTD đến " & [Ngày báo cáo] & " (tỷ đồng)"
+		displayFolder: KPI hiển thị
+
+	measure 'Tiêu đề Hình 12' = "Hình 12: TOI YTD theo phân khúc đến " & [Ngày báo cáo]
+		displayFolder: KPI hiển thị
+
+	measure 'Tiêu đề Hình 14' = "Hình 14: Top 10 khách hàng theo TOI YTD đến " & [Ngày báo cáo] & " (tỷ đồng)"
+		displayFolder: KPI hiển thị
+
+	measure 'Tiêu đề Hình 15' = "Hình 15: Top 10 ĐVKD theo TOI YTD đến " & [Ngày báo cáo] & " (tỷ đồng)"
+		displayFolder: KPI hiển thị
+
+	measure 'Kỳ hạn DN hiện tại' = IF ( ISBLANK ( [Dư nợ (tỷ)] ), "–", FORMAT ( [Dư nợ (tỷ)], "#,0.0", "vi-VN" ) )
+		displayFolder: Bảng dư nợ
+
+	measure 'Kỳ hạn DN cuối tháng trước' = IF ( ISBLANK ( [Dư nợ LM (tỷ)] ), "–", FORMAT ( [Dư nợ LM (tỷ)], "#,0.0", "vi-VN" ) )
+		displayFolder: Bảng dư nợ
+
+	measure 'Kỳ hạn DN cùng tháng năm trước' = IF ( ISBLANK ( [Dư nợ LY (tỷ)] ), "–", FORMAT ( [Dư nợ LY (tỷ)], "#,0.0", "vi-VN" ) )
+		displayFolder: Bảng dư nợ
+
+	measure 'Kỳ hạn DN Δ tháng' =
+			VAR d = [Dư nợ Δ tháng (giá trị)]
+			RETURN IF ( ISBLANK ( d ), "–", IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ), "0.0%", "vi-VN" ) )
+		displayFolder: Bảng dư nợ
+
+	measure 'Kỳ hạn DN Δ cùng kỳ' =
+			VAR d = [Dư nợ Δ cùng kỳ (giá trị)]
+			RETURN IF ( ISBLANK ( d ), "–", IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ), "0.0%", "vi-VN" ) )
+		displayFolder: Bảng dư nợ
+
+	measure 'Kỳ hạn DN tỷ trọng' =
+			VAR tot = CALCULATE ( [Dư nợ], ALLSELECTED ( dim_loan_contract[Kỳ hạn], dim_loan_contract[Thứ tự kỳ hạn] ) )
+			RETURN IF ( NOT ISBLANK ( [Dư nợ] ), FORMAT ( DIVIDE ( [Dư nợ], tot ), "0.0%", "vi-VN" ) )
+		displayFolder: Bảng dư nợ
+
+	measure 'ĐVKD DN hiện tại' = IF ( [Là Top 10 ĐVKD], IF ( ISBLANK ( [Dư nợ (tỷ)] ), "–", FORMAT ( [Dư nợ (tỷ)], "#,0.0", "vi-VN" ) ) )
+		displayFolder: Bảng dư nợ
+
+	measure 'ĐVKD DN cuối tháng trước' = IF ( [Là Top 10 ĐVKD], IF ( ISBLANK ( [Dư nợ LM (tỷ)] ), "–", FORMAT ( [Dư nợ LM (tỷ)], "#,0.0", "vi-VN" ) ) )
+		displayFolder: Bảng dư nợ
+
+	measure 'ĐVKD DN cùng tháng năm trước' = IF ( [Là Top 10 ĐVKD], IF ( ISBLANK ( [Dư nợ LY (tỷ)] ), "–", FORMAT ( [Dư nợ LY (tỷ)], "#,0.0", "vi-VN" ) ) )
+		displayFolder: Bảng dư nợ
+
+	measure 'ĐVKD DN Δ tháng' = ```
+			IF ( [Là Top 10 ĐVKD], 
+			VAR d = [Dư nợ Δ tháng (giá trị)]
+			RETURN IF ( ISBLANK ( d ), "–", IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ), "0.0%", "vi-VN" ) ) )
+			```
+		displayFolder: Bảng dư nợ
+
+	measure 'ĐVKD DN Δ cùng kỳ' = ```
+			IF ( [Là Top 10 ĐVKD], 
+			VAR d = [Dư nợ Δ cùng kỳ (giá trị)]
+			RETURN IF ( ISBLANK ( d ), "–", IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ), "0.0%", "vi-VN" ) ) )
+			```
+		displayFolder: Bảng dư nợ
+
+	measure 'STT Top 10 ĐVKD' = IF ( [Là Top 10 ĐVKD], [Hạng ĐVKD] )
+		formatString: 0
+		displayFolder: Bảng dư nợ
+
+	measure 'Phân khúc KH' = LOOKUPVALUE ( dim_segment[segment], dim_segment[segment_id], SELECTEDVALUE ( dim_customer[segment_id] ) )
+		displayFolder: Top 10 NII/TOI
+
+	measure 'Hạng KH NII YTD' =
+			IF (
+			    ISINSCOPE ( dim_customer[Khách hàng] ) && [NII YTD] > 0,
+			    RANKX ( FILTER ( ALLSELECTED ( dim_customer[Khách hàng] ), [NII YTD] > 0 ), [NII YTD], , DESC )
+			)
+		formatString: 0
+		displayFolder: Top 10 NII/TOI
+
+	measure 'STT KH NII YTD' = VAR r = [Hạng KH NII YTD] RETURN IF ( NOT ISBLANK ( r ) && r <= 10, r )
+		formatString: 0
+		displayFolder: Top 10 NII/TOI
+
+	measure 'KH NII YTD (tỷ)' = IF ( NOT ISBLANK ( [STT KH NII YTD] ), FORMAT ( [NII YTD], "#,0.00", "vi-VN" ) )
+		displayFolder: Top 10 NII/TOI
+
+	measure 'KH NII YTD phân khúc' = IF ( NOT ISBLANK ( [STT KH NII YTD] ), [Phân khúc KH] )
+		displayFolder: Top 10 NII/TOI
+
+	measure 'Hạng ĐVKD NII YTD' =
+			IF (
+			    ISINSCOPE ( dim_branch[ĐVKD] ) && [NII YTD] > 0,
+			    RANKX ( FILTER ( ALLSELECTED ( dim_branch[ĐVKD] ), [NII YTD] > 0 ), [NII YTD], , DESC )
+			)
+		formatString: 0
+		displayFolder: Top 10 NII/TOI
+
+	measure 'NII YTD Top 10 ĐVKD' = VAR r = [Hạng ĐVKD NII YTD] RETURN IF ( NOT ISBLANK ( r ) && r <= 10, [NII YTD] )
+		formatString: #,0
+		displayFolder: Top 10 NII/TOI
+
+	measure 'Hạng KH TOI YTD' =
+			IF (
+			    ISINSCOPE ( dim_customer[Khách hàng] ) && [TOI YTD] > 0,
+			    RANKX ( FILTER ( ALLSELECTED ( dim_customer[Khách hàng] ), [TOI YTD] > 0 ), [TOI YTD], , DESC )
+			)
+		formatString: 0
+		displayFolder: Top 10 NII/TOI
+
+	measure 'STT KH TOI YTD' = VAR r = [Hạng KH TOI YTD] RETURN IF ( NOT ISBLANK ( r ) && r <= 10, r )
+		formatString: 0
+		displayFolder: Top 10 NII/TOI
+
+	measure 'KH TOI YTD (tỷ)' = IF ( NOT ISBLANK ( [STT KH TOI YTD] ), FORMAT ( [TOI YTD], "#,0.00", "vi-VN" ) )
+		displayFolder: Top 10 NII/TOI
+
+	measure 'KH TOI YTD phân khúc' = IF ( NOT ISBLANK ( [STT KH TOI YTD] ), [Phân khúc KH] )
+		displayFolder: Top 10 NII/TOI
+
+	measure 'Hạng ĐVKD TOI YTD' =
+			IF (
+			    ISINSCOPE ( dim_branch[ĐVKD] ) && [TOI YTD] > 0,
+			    RANKX ( FILTER ( ALLSELECTED ( dim_branch[ĐVKD] ), [TOI YTD] > 0 ), [TOI YTD], , DESC )
+			)
+		formatString: 0
+		displayFolder: Top 10 NII/TOI
+
+	measure 'TOI YTD Top 10 ĐVKD' = VAR r = [Hạng ĐVKD TOI YTD] RETURN IF ( NOT ISBLANK ( r ) && r <= 10, [TOI YTD] )
+		formatString: #,0
+		displayFolder: Top 10 NII/TOI
+
+	measure 'Xu hướng Dư nợ' =
+			VAR sel = MAX ( dim_date[month_end_date] )
+			VAR mth = MAX ( 'Trục tháng'[Tháng] )
+			RETURN
+			    IF ( mth <= sel, CALCULATE ( [Dư nợ (tỷ)], dim_date[month_end_date] = mth ) )
+		formatString: #,0
+		displayFolder: Xu hướng
+
+	measure 'Xu hướng Dư nợ (kỳ báo cáo)' = IF ( MAX ( 'Trục tháng'[Tháng] ) = MAX ( dim_date[month_end_date] ), [Xu hướng Dư nợ] )
+		formatString: #,0
+		displayFolder: Xu hướng
+
+	measure 'Xu hướng NII tháng' =
+			VAR sel = MAX ( dim_date[month_end_date] )
+			VAR mth = MAX ( 'Trục tháng'[Tháng] )
+			RETURN
+			    IF ( mth <= sel, CALCULATE ( [NII tháng], dim_date[month_end_date] = mth ) )
+		formatString: #,0.0
+		displayFolder: Xu hướng
+
+	measure 'Xu hướng NII tháng (kỳ báo cáo)' = IF ( MAX ( 'Trục tháng'[Tháng] ) = MAX ( dim_date[month_end_date] ), [Xu hướng NII tháng] )
+		formatString: #,0.0
+		displayFolder: Xu hướng
+
+	measure 'Xu hướng TOI tháng' =
+			VAR sel = MAX ( dim_date[month_end_date] )
+			VAR mth = MAX ( 'Trục tháng'[Tháng] )
+			RETURN
+			    IF ( mth <= sel, CALCULATE ( [TOI tháng], dim_date[month_end_date] = mth ) )
+		formatString: #,0.0
+		displayFolder: Xu hướng
+
+	measure 'Xu hướng TOI tháng (kỳ báo cáo)' = IF ( MAX ( 'Trục tháng'[Tháng] ) = MAX ( dim_date[month_end_date] ), [Xu hướng TOI tháng] )
+		formatString: #,0.0
+		displayFolder: Xu hướng
+
+	measure 'Xu hướng NII YTD' =
+			VAR sel = MAX ( dim_date[month_end_date] )
+			VAR mth = MAX ( 'Trục tháng'[Tháng] )
+			RETURN
+			    IF ( mth <= sel, CALCULATE ( [NII YTD], dim_date[month_end_date] = mth ) )
+		formatString: #,0
+		displayFolder: Xu hướng
+
+	measure 'Xu hướng NII YTD (kỳ báo cáo)' = IF ( MAX ( 'Trục tháng'[Tháng] ) = MAX ( dim_date[month_end_date] ), [Xu hướng NII YTD] )
+		formatString: #,0
+		displayFolder: Xu hướng
+
+	measure 'Xu hướng TOI YTD' =
+			VAR sel = MAX ( dim_date[month_end_date] )
+			VAR mth = MAX ( 'Trục tháng'[Tháng] )
+			RETURN
+			    IF ( mth <= sel, CALCULATE ( [TOI YTD], dim_date[month_end_date] = mth ) )
+		formatString: #,0
+		displayFolder: Xu hướng
+
+	measure 'Xu hướng TOI YTD (kỳ báo cáo)' = IF ( MAX ( 'Trục tháng'[Tháng] ) = MAX ( dim_date[month_end_date] ), [Xu hướng TOI YTD] )
+		formatString: #,0
+		displayFolder: Xu hướng
+
+	measure 'Dư nợ Δ tháng (ngắn)' =
+			VAR d = [Dư nợ Δ tháng (giá trị)]
+			RETURN IF ( ISBLANK ( d ), "–", IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ), "0.0%", "vi-VN" ) )
+		displayFolder: KPI hiển thị
+
+	measure 'Dư nợ Δ cùng kỳ (ngắn)' =
+			VAR d = [Dư nợ Δ cùng kỳ (giá trị)]
+			RETURN IF ( ISBLANK ( d ), "–", IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ), "0.0%", "vi-VN" ) )
+		displayFolder: KPI hiển thị
+
+	measure 'DNBQ YTD Δ tháng (ngắn)' =
+			VAR d = [DNBQ YTD Δ tháng (giá trị)]
+			RETURN IF ( ISBLANK ( d ), "–", IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ), "0.0%", "vi-VN" ) )
+		displayFolder: KPI hiển thị
+
+	measure 'DNBQ YTD Δ cùng kỳ (ngắn)' =
+			VAR d = [DNBQ YTD Δ cùng kỳ (giá trị)]
+			RETURN IF ( ISBLANK ( d ), "–", IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ), "0.0%", "vi-VN" ) )
+		displayFolder: KPI hiển thị
+
+	measure 'NII YTD Δ tháng (ngắn)' =
+			VAR d = [NII YTD Δ tháng (giá trị)]
+			RETURN IF ( ISBLANK ( d ), "–", IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ), "0.0%", "vi-VN" ) )
+		displayFolder: KPI hiển thị
+
+	measure 'NII YTD Δ cùng kỳ (ngắn)' =
+			VAR d = [NII YTD Δ cùng kỳ (giá trị)]
+			RETURN IF ( ISBLANK ( d ), "–", IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ), "0.0%", "vi-VN" ) )
+		displayFolder: KPI hiển thị
+
+	measure 'TOI YTD Δ tháng (ngắn)' =
+			VAR d = [TOI YTD Δ tháng (giá trị)]
+			RETURN IF ( ISBLANK ( d ), "–", IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ), "0.0%", "vi-VN" ) )
+		displayFolder: KPI hiển thị
+
+	measure 'TOI YTD Δ cùng kỳ (ngắn)' =
+			VAR d = [TOI YTD Δ cùng kỳ (giá trị)]
+			RETURN IF ( ISBLANK ( d ), "–", IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ), "0.0%", "vi-VN" ) )
+		displayFolder: KPI hiển thị
+
+	column Column
+		formatString: 0
+		lineageTag: 1684adc8-91a1-4c4a-bfcb-49f149ef7c51
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Dư nợ' = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = 63f32a33441947dcb6a3c6fc21f8996f
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

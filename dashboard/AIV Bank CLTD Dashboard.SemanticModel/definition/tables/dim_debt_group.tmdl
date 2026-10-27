@@ -1,0 +1,57 @@
+table dim_debt_group
+	lineageTag: 28f8bed5-a137-430a-a1a3-083d41c24e03
+
+	column debt_group_id
+		dataType: int64
+		formatString: 0
+		lineageTag: a244b04c-2783-4871-8a83-3061e40f3716
+		summarizeBy: none
+		sourceColumn: debt_group_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column debt_group_code
+		dataType: string
+		lineageTag: 27466534-713c-4af0-a176-06c4aa04147c
+		summarizeBy: none
+		sourceColumn: debt_group_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column description
+		dataType: string
+		lineageTag: 31fc8974-efc2-404d-9bf5-7608297f3cc4
+		summarizeBy: none
+		sourceColumn: description
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_od2
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 1dd08fb1-b1f3-4447-89f7-ca2e2ab1ad9d
+		summarizeBy: none
+		sourceColumn: is_od2
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_od35
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: eb1cf9c7-06b4-4be8-8407-8cc156ce5afc
+		summarizeBy: none
+		sourceColumn: is_od35
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_debt_group = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents("D:\eDA\Module_2\data-20261014T075931Z-1-001\data\AIV_Bank_KHDN_Dataset.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "dim_debt_group", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"debt_group_id", Int64.Type}, {"debt_group_code", type text}, {"description", type text}, {"is_od2", type logical}, {"is_od35", type logical}})
+				in
+				  #"Changed column type"
+

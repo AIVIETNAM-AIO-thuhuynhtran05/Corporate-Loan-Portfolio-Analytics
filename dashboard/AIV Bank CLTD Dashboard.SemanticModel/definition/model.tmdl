@@ -1,0 +1,52 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["dim_customer","dim_loan_contract","dim_branch","dim_segment","dim_industry","dim_product","dim_debt_group","dim_campaign","dim_date","fact_loan_balance","fact_income_monthly","fact_plan","fact_due_soon","fact_debt_group_cic"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table dim_customer
+ref table DateTableTemplate_43debf9f-c9af-45b6-b9cd-0b76b38e69bb
+ref table LocalDateTable_7a2acca5-b4a5-45d1-908e-23a7eb420b77
+ref table dim_loan_contract
+ref table LocalDateTable_6f83e2b0-5256-4c6c-8a7f-d55336933d55
+ref table LocalDateTable_b66133a2-c4ce-4774-bacd-03daeda2b443
+ref table LocalDateTable_55c26d52-a2cb-403f-af84-9795eadf8134
+ref table dim_branch
+ref table dim_segment
+ref table dim_industry
+ref table dim_product
+ref table dim_debt_group
+ref table dim_campaign
+ref table LocalDateTable_8d939091-5c2c-4f1d-88d3-3dbbb50f16f7
+ref table LocalDateTable_f27e265c-1397-483d-9086-e569f07f28f1
+ref table dim_date
+ref table LocalDateTable_7a5a8f4c-b3ad-4815-83f9-a4a7a8bd09d5
+ref table LocalDateTable_40439145-38a5-452f-9709-ab2f0de7f401
+ref table LocalDateTable_46d77ffc-d9de-455a-931c-54682d3fb0d7
+ref table LocalDateTable_14fe7bd3-d40d-488b-b207-eae6b47cd553
+ref table LocalDateTable_b6f46c30-7639-4d6d-ad38-6640baf06dde
+ref table LocalDateTable_5fb2c2bc-d0e2-4bf1-afc0-ab3b4cbcb1f1
+ref table fact_loan_balance
+ref table fact_income_monthly
+ref table LocalDateTable_552e127b-af57-4227-b123-6fa7741495a3
+ref table fact_plan
+ref table fact_due_soon
+ref table LocalDateTable_1d68bd3e-cbdb-45f4-9f39-1694b57da5b7
+ref table LocalDateTable_b9a10e67-dbfc-43be-bbed-69ddafc98d0e
+ref table fact_debt_group_cic
+ref table LocalDateTable_a5d3909d-d1bd-4c3d-ac3a-55c19e89fbae
+ref table 'Dư nợ'
+ref table 'Tỉ lệ thay đổi'
+ref table 'Trục tháng'
+
+ref cultureInfo en-US
+

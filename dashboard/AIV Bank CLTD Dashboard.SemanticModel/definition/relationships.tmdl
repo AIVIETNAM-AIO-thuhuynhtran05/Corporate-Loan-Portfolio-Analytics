@@ -1,0 +1,140 @@
+relationship 1832b085-25fb-4820-abf5-430629aeee62
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_customer.customer_since
+	toColumn: LocalDateTable_7a2acca5-b4a5-45d1-908e-23a7eb420b77.Date
+
+relationship ad0d94cb-eebf-45c4-a8fd-0b135d849e3b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_loan_contract.open_date
+	toColumn: LocalDateTable_6f83e2b0-5256-4c6c-8a7f-d55336933d55.Date
+
+relationship 182ae969-934d-4e17-9b78-508135a48b64
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_loan_contract.maturity_date
+	toColumn: LocalDateTable_b66133a2-c4ce-4774-bacd-03daeda2b443.Date
+
+relationship 0ca69079-edce-45ff-b30f-de3ebb3258de
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_loan_contract.close_date
+	toColumn: LocalDateTable_55c26d52-a2cb-403f-af84-9795eadf8134.Date
+
+relationship f2968cb9-6df1-42db-9364-6b6469e894f4
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_campaign.valid_from
+	toColumn: LocalDateTable_8d939091-5c2c-4f1d-88d3-3dbbb50f16f7.Date
+
+relationship 543745ed-b4a8-447a-9107-c104b1a1fab5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_campaign.valid_to
+	toColumn: LocalDateTable_f27e265c-1397-483d-9086-e569f07f28f1.Date
+
+relationship ad6b65f2-e3e6-4631-bb10-934ecb4986de
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_date.date
+	toColumn: LocalDateTable_7a5a8f4c-b3ad-4815-83f9-a4a7a8bd09d5.Date
+
+relationship 7f747b5f-80d7-4560-ae73-03cc1e5a1213
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_date.month_name
+	toColumn: LocalDateTable_40439145-38a5-452f-9709-ab2f0de7f401.Date
+
+relationship 81aa1ae3-e123-4a7b-b4ae-e764879c7166
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_date.month_end_date
+	toColumn: LocalDateTable_46d77ffc-d9de-455a-931c-54682d3fb0d7.Date
+
+relationship 701852c5-73c3-413a-b4cd-2340d4779cb9
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_date.prev_month_end
+	toColumn: LocalDateTable_14fe7bd3-d40d-488b-b207-eae6b47cd553.Date
+
+relationship 7de0f4df-87d3-443c-98cc-e0d596e8fdac
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_date.same_month_prev_year_end
+	toColumn: LocalDateTable_b6f46c30-7639-4d6d-ad38-6640baf06dde.Date
+
+relationship d82fde65-9cba-4b6a-8f78-5cdb238fc917
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_date.prev_year_end
+	toColumn: LocalDateTable_5fb2c2bc-d0e2-4bf1-afc0-ab3b4cbcb1f1.Date
+
+relationship c4a04fb1-d784-4f51-96ae-acf36a51c090
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_income_monthly.period_end_date
+	toColumn: LocalDateTable_552e127b-af57-4227-b123-6fa7741495a3.Date
+
+relationship fd7cbea4-a779-44e7-b2f8-7037d7af66c6
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_due_soon.snapshot_date
+	toColumn: LocalDateTable_1d68bd3e-cbdb-45f4-9f39-1694b57da5b7.Date
+
+relationship d6da5877-b1ce-434b-9a99-80be4d3e08cb
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_due_soon.due_date
+	toColumn: LocalDateTable_b9a10e67-dbfc-43be-bbed-69ddafc98d0e.Date
+
+relationship f85f630d-ef17-457e-afc9-0334932f16bc
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_debt_group_cic.snapshot_date
+	toColumn: LocalDateTable_a5d3909d-d1bd-4c3d-ac3a-55c19e89fbae.Date
+
+relationship AutoDetected_033a26d4-c9dd-406d-9968-de0fcb67afad
+	fromColumn: dim_loan_contract.cif
+	toColumn: dim_customer.cif
+
+relationship AutoDetected_7cf59692-67ac-4198-872e-802a644fc879
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: fact_debt_group_cic.cif
+	toColumn: dim_customer.cif
+
+relationship AutoDetected_24c29f9b-8383-44a0-8303-edcff19d087b
+	fromColumn: dim_customer.segment_id
+	toColumn: dim_segment.segment_id
+
+relationship AutoDetected_0e53b921-a896-4e4f-b21b-70fd7ab15bec
+	fromColumn: dim_customer.industry_id
+	toColumn: dim_industry.industry_id
+
+relationship AutoDetected_c82ae046-5f64-4f3a-88bf-e17699129142
+	fromColumn: fact_loan_balance.contract_id
+	toColumn: dim_loan_contract.contract_id
+
+relationship AutoDetected_7edd4a70-113f-4134-b78b-acf3826003d9
+	fromColumn: fact_income_monthly.contract_id
+	toColumn: dim_loan_contract.contract_id
+
+relationship AutoDetected_183620bc-2a62-45a9-a634-b5bde0e9b190
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: fact_due_soon.contract_id
+	toColumn: dim_loan_contract.contract_id
+
+relationship AutoDetected_1058d0a6-7119-49df-bd4c-d0b2d785ef63
+	fromColumn: dim_loan_contract.branch_id
+	toColumn: dim_branch.branch_id
+
+relationship AutoDetected_241bc631-753a-47ab-bda1-c57a5a09589e
+	fromColumn: fact_plan.branch_id
+	toColumn: dim_branch.branch_id
+
+relationship AutoDetected_6eec83a8-1eb8-4bed-82d2-232090799dfc
+	fromColumn: dim_loan_contract.product_id
+	toColumn: dim_product.product_id
+
+relationship AutoDetected_5a7687ae-7f83-4b14-b2e9-098424d0f59a
+	fromColumn: dim_loan_contract.campaign_id
+	toColumn: dim_campaign.campaign_id
+
+relationship AutoDetected_07b52058-290a-4c40-972e-352cf520a4d1
+	fromColumn: fact_loan_balance.debt_group_id
+	toColumn: dim_debt_group.debt_group_id
+
+relationship AutoDetected_9db2b006-2c00-498c-a0da-971a68181a47
+	fromColumn: fact_income_monthly.debt_group_id
+	toColumn: dim_debt_group.debt_group_id
+
+relationship a317449e-e04e-378e-952b-6189836c2916
+	fromColumn: fact_loan_balance.snapshot_date
+	toColumn: dim_date.date
+

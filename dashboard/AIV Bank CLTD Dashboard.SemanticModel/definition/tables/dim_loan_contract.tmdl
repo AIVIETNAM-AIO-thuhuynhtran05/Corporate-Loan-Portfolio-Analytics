@@ -1,0 +1,276 @@
+table dim_loan_contract
+	lineageTag: f86c3820-1db0-48e2-b529-0261a4814b3b
+
+	column contract_id
+		dataType: string
+		lineageTag: 8a37dcfd-d599-48b5-812e-8f3d24eb258b
+		summarizeBy: none
+		sourceColumn: contract_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column cif
+		dataType: string
+		lineageTag: 6d2ba548-c6da-414f-9b4c-f0f400403f4a
+		summarizeBy: none
+		sourceColumn: cif
+
+		annotation SummarizationSetBy = Automatic
+
+	column branch_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 1b15fb08-6606-41ed-90fa-2fe97dfc753b
+		summarizeBy: none
+		sourceColumn: branch_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 994ab902-1c6a-41e8-96d7-b075a74fb77b
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column term_group
+		dataType: string
+		lineageTag: e56ae630-31c8-481e-b73d-2d5fc7a9481b
+		summarizeBy: none
+		sourceColumn: term_group
+
+		annotation SummarizationSetBy = Automatic
+
+	column ccy
+		dataType: string
+		lineageTag: 986f08ab-1ecb-4e8a-95c8-7ba18b706ce4
+		summarizeBy: none
+		sourceColumn: ccy
+
+		annotation SummarizationSetBy = Automatic
+
+	column campaign_id
+		dataType: string
+		lineageTag: 6ed5c55c-75e6-4351-9e8f-fdea1e154bba
+		summarizeBy: none
+		sourceColumn: campaign_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column open_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 63ce4fde-3362-47ee-9097-a35456eeef2e
+		summarizeBy: none
+		sourceColumn: open_date
+
+		variation Variation
+			isDefault
+			relationship: ad0d94cb-eebf-45c4-a8fd-0b135d849e3b
+			defaultHierarchy: LocalDateTable_6f83e2b0-5256-4c6c-8a7f-d55336933d55.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column maturity_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: a7e5e809-1d59-4c22-8881-dcc251333858
+		summarizeBy: none
+		sourceColumn: maturity_date
+
+		variation Variation
+			isDefault
+			relationship: 182ae969-934d-4e17-9b78-508135a48b64
+			defaultHierarchy: LocalDateTable_b66133a2-c4ce-4774-bacd-03daeda2b443.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column tenor_months
+		dataType: int64
+		formatString: 0
+		lineageTag: 418c7d20-a035-42ad-b6c1-9d579bb68e4b
+		summarizeBy: sum
+		sourceColumn: tenor_months
+
+		annotation SummarizationSetBy = Automatic
+
+	column interest_rate_pct
+		dataType: double
+		lineageTag: 5b79b419-89d9-42cb-a092-740e4c7ff7ee
+		summarizeBy: sum
+		sourceColumn: interest_rate_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ftp_rate_pct
+		dataType: double
+		lineageTag: 6e94df56-eb45-4718-8234-33e7f9b15d44
+		summarizeBy: sum
+		sourceColumn: ftp_rate_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column disbursed_amount_ccy
+		dataType: double
+		lineageTag: 20c2b1ec-f1b6-49f2-a772-1bb68f3a603d
+		summarizeBy: sum
+		sourceColumn: disbursed_amount_ccy
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column disbursed_amount_vnd
+		dataType: int64
+		formatString: 0
+		lineageTag: 8aaac788-a351-46d7-a8be-a917130e78b7
+		summarizeBy: sum
+		sourceColumn: disbursed_amount_vnd
+
+		annotation SummarizationSetBy = Automatic
+
+	column credit_limit_vnd
+		dataType: int64
+		formatString: 0
+		lineageTag: be3beb2c-8d5a-49f1-a595-68e645a45153
+		summarizeBy: sum
+		sourceColumn: credit_limit_vnd
+
+		annotation SummarizationSetBy = Automatic
+
+	column contract_status
+		dataType: string
+		lineageTag: f8e09b70-841b-4117-95da-1a3e2e08bd26
+		summarizeBy: none
+		sourceColumn: contract_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column close_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c736fea2-022f-49c9-ab2e-b2b805242cba
+		summarizeBy: none
+		sourceColumn: close_date
+
+		variation Variation
+			isDefault
+			relationship: 0ca69079-edce-45ff-b30f-de3ebb3258de
+			defaultHierarchy: LocalDateTable_55c26d52-a2cb-403f-af84-9795eadf8134.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column exit_reason
+		dataType: string
+		lineageTag: 7fee50cc-ba2d-4ecc-b25e-19071e12ea63
+		summarizeBy: none
+		sourceColumn: exit_reason
+
+		annotation SummarizationSetBy = Automatic
+
+	column rolled_from_contract_id
+		dataType: string
+		lineageTag: 583d586e-22e7-4f60-8fda-decdf0095a93
+		summarizeBy: none
+		sourceColumn: rolled_from_contract_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column loan_purpose
+		dataType: string
+		lineageTag: 7f63fac7-8f50-4bf9-8c2e-e92f29098e3c
+		summarizeBy: none
+		sourceColumn: loan_purpose
+
+		annotation SummarizationSetBy = Automatic
+
+	column repayment_method
+		dataType: string
+		lineageTag: 11a6eb54-34cc-4d8b-91af-0f1c081b162a
+		summarizeBy: none
+		sourceColumn: repayment_method
+
+		annotation SummarizationSetBy = Automatic
+
+	column collateral_type
+		dataType: string
+		lineageTag: 55446308-8a07-450d-abc9-957584faa155
+		summarizeBy: none
+		sourceColumn: collateral_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column collateral_value_vnd
+		dataType: int64
+		formatString: 0
+		lineageTag: 93941279-227e-434c-aa15-bb5492ddf124
+		summarizeBy: sum
+		sourceColumn: collateral_value_vnd
+
+		annotation SummarizationSetBy = Automatic
+
+	column ltv_pct
+		dataType: int64
+		formatString: 0
+		lineageTag: 7487e3e4-a587-4d6c-86b7-966476c251a0
+		summarizeBy: sum
+		sourceColumn: ltv_pct
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_secured
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: b03804ce-ee3a-444b-94ec-be747eb84e53
+		summarizeBy: none
+		sourceColumn: is_secured
+
+		annotation SummarizationSetBy = Automatic
+
+	column origination_channel
+		dataType: string
+		lineageTag: 80668099-8f1a-473e-b283-4fe2e511407b
+		summarizeBy: none
+		sourceColumn: origination_channel
+
+		annotation SummarizationSetBy = Automatic
+
+	column restructured_flag
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 4eace6fd-96fc-4591-8d33-637183344d51
+		summarizeBy: none
+		sourceColumn: restructured_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Kỳ hạn' = SWITCH ( dim_loan_contract[term_group], "ST", "Ngắn hạn", "MLT", "Trung dài hạn", dim_loan_contract[term_group] )
+		dataType: string
+		sortByColumn: 'Thứ tự kỳ hạn'
+
+	column 'Thứ tự kỳ hạn' = SWITCH ( dim_loan_contract[term_group], "ST", 1, "MLT", 2, 3 )
+		dataType: int64
+
+	partition dim_loan_contract = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents("D:\eDA\Module_2\data-20261014T075931Z-1-001\data\AIV_Bank_KHDN_Dataset.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "dim_loan_contract", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"contract_id", type text}, {"cif", type text}, {"branch_id", Int64.Type}, {"product_id", Int64.Type}, {"term_group", type text}, {"ccy", type text}, {"campaign_id", type text}, {"open_date", type date}, {"maturity_date", type date}, {"tenor_months", Int64.Type}, {"interest_rate_pct", type number}, {"ftp_rate_pct", type number}, {"disbursed_amount_ccy", type number}, {"disbursed_amount_vnd", Int64.Type}, {"credit_limit_vnd", Int64.Type}, {"contract_status", type text}, {"close_date", type date}, {"exit_reason", type text}, {"loan_purpose", type text}, {"repayment_method", type text}, {"collateral_type", type text}, {"collateral_value_vnd", Int64.Type}, {"ltv_pct", Int64.Type}, {"is_secured", type logical}, {"origination_channel", type text}, {"restructured_flag", type logical}})
+				in
+				  #"Changed column type"
+

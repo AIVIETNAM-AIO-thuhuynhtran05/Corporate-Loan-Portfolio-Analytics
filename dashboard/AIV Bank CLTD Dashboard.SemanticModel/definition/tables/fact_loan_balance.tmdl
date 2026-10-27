@@ -1,0 +1,115 @@
+table fact_loan_balance
+	lineageTag: a7d3c5c5-8467-4326-acd7-3bb50bbbcac5
+
+	column snapshot_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: caad13cf-1a67-471d-95af-d83883f3e184
+		summarizeBy: none
+		sourceColumn: snapshot_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column contract_id
+		dataType: string
+		lineageTag: 48b76e9c-757d-49b7-99aa-555412000b48
+		summarizeBy: none
+		sourceColumn: contract_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column debt_group_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 9893fef0-c3d9-4f81-b125-63ffea8ae524
+		summarizeBy: none
+		sourceColumn: debt_group_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column balance_ccy
+		dataType: double
+		lineageTag: a8aa30c1-da52-4b93-8dba-4d81dbef6f18
+		summarizeBy: sum
+		sourceColumn: balance_ccy
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column fx_rate
+		dataType: int64
+		formatString: 0
+		lineageTag: 9fa4fc01-5ae9-4170-b1f8-7718e7bd1abb
+		summarizeBy: sum
+		sourceColumn: fx_rate
+
+		annotation SummarizationSetBy = Automatic
+
+	column balance_vnd
+		dataType: int64
+		formatString: 0
+		lineageTag: a39ea8dc-5eca-4ba9-a8e9-3a6325228aa0
+		summarizeBy: sum
+		sourceColumn: balance_vnd
+
+		annotation SummarizationSetBy = Automatic
+
+	column days_past_due
+		dataType: int64
+		formatString: 0
+		lineageTag: 1e4333a3-6790-42c5-a60f-6c549fe264da
+		summarizeBy: sum
+		sourceColumn: days_past_due
+
+		annotation SummarizationSetBy = Automatic
+
+	column principal_overdue_vnd
+		dataType: int64
+		formatString: 0
+		lineageTag: 6d59e904-a10d-4ab7-aca4-1d7ab545cbff
+		summarizeBy: sum
+		sourceColumn: principal_overdue_vnd
+
+		annotation SummarizationSetBy = Automatic
+
+	column accrued_interest_vnd
+		dataType: int64
+		formatString: 0
+		lineageTag: 36b65968-f96e-47ae-937a-da6f7000ff9d
+		summarizeBy: sum
+		sourceColumn: accrued_interest_vnd
+
+		annotation SummarizationSetBy = Automatic
+
+	column undrawn_limit_vnd
+		dataType: int64
+		formatString: 0
+		lineageTag: 9d1cf567-32ce-44c7-949f-464c48e5448d
+		summarizeBy: sum
+		sourceColumn: undrawn_limit_vnd
+
+		annotation SummarizationSetBy = Automatic
+
+	column provision_vnd
+		dataType: int64
+		formatString: 0
+		lineageTag: 73a76703-f0c7-4de7-98e9-f2ae0a27617e
+		summarizeBy: sum
+		sourceColumn: provision_vnd
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_loan_balance = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents("D:\eDA\Module_2\data-20261014T075931Z-1-001\data\AIV_Bank_KHDN_Dataset.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "fact_loan_balance", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"snapshot_date", type date}, {"contract_id", type text}, {"debt_group_id", Int64.Type}, {"balance_ccy", type number}, {"fx_rate", Int64.Type}, {"balance_vnd", Int64.Type}, {"days_past_due", Int64.Type}, {"principal_overdue_vnd", Int64.Type}, {"accrued_interest_vnd", Int64.Type}, {"undrawn_limit_vnd", Int64.Type}, {"provision_vnd", Int64.Type}})
+				in
+				  #"Changed column type"
+

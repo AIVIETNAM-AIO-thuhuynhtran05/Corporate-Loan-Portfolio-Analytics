@@ -1,0 +1,468 @@
+table 'Tỉ lệ thay đổi'
+	lineageTag: cdf7824e-ff99-46b6-9ef4-19c0739160da
+
+	measure 'Tỷ lệ OD2' = DIVIDE ( [Dư nợ OD2] + 0, CALCULATE ( [Dư nợ], REMOVEFILTERS ( dim_debt_group ) ) )
+		formatString: 0.00%
+		lineageTag: e1be341f-d207-4427-a31b-72b9f8077372
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Tỷ lệ OD2 LM' = DIVIDE ( [Dư nợ OD2 LM] + 0, CALCULATE ( [Dư nợ LM], REMOVEFILTERS ( dim_debt_group ) ) )
+		formatString: 0.00%
+		lineageTag: 8a6f61c7-4133-4187-a0f0-c263ac6648df
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Tỷ lệ OD2 LY' = DIVIDE ( [Dư nợ OD2 LY] + 0, CALCULATE ( [Dư nợ LY], REMOVEFILTERS ( dim_debt_group ) ) )
+		formatString: 0.00%
+		lineageTag: c65ab9c0-d7cf-41cd-8b5b-cf49e57eb680
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Tỷ lệ OD35' = DIVIDE ( [Dư nợ OD35] + 0, CALCULATE ( [Dư nợ], REMOVEFILTERS ( dim_debt_group ) ) )
+		formatString: 0.00%
+		lineageTag: aeb3ecfe-8c74-4f98-898a-e63e87810a84
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Tỷ lệ OD35 LM' = DIVIDE ( [Dư nợ OD35 LM] + 0, CALCULATE ( [Dư nợ LM], REMOVEFILTERS ( dim_debt_group ) ) )
+		formatString: 0.00%
+		lineageTag: 8274b4ef-a172-4970-a61b-8f1e2329b47d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Tỷ lệ OD35 LY' = DIVIDE ( [Dư nợ OD35 LY] + 0, CALCULATE ( [Dư nợ LY], REMOVEFILTERS ( dim_debt_group ) ) )
+		formatString: 0.00%
+		lineageTag: bccb1af9-3946-4d04-bb17-818cdd6a2950
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'OD2 Δ tháng' =
+			VAR d = [OD2 Δ tháng (giá trị)]
+			RETURN
+			    IF (
+			        NOT ISBLANK ( d ),
+			        IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ) * 100, "0.00", "vi-VN" ) & " điểm % so với cuối tháng trước"
+			    )
+		displayFolder: KPI hiển thị
+		lineageTag: 868831e0-bb59-47eb-9d00-6396bfadf975
+
+	measure 'OD2 Δ cùng kỳ' =
+			VAR d = [OD2 Δ cùng kỳ (giá trị)]
+			RETURN
+			    IF (
+			        NOT ISBLANK ( d ),
+			        IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ) * 100, "0.00", "vi-VN" ) & " điểm % so với cùng tháng năm trước"
+			    )
+		displayFolder: KPI hiển thị
+		lineageTag: 9db5066b-24b7-4f4c-a558-5ad0bfc5fa65
+
+	measure 'OD3-5 Δ tháng' =
+			VAR d = [OD3-5 Δ tháng (giá trị)]
+			RETURN
+			    IF (
+			        NOT ISBLANK ( d ),
+			        IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ) * 100, "0.00", "vi-VN" ) & " điểm % so với cuối tháng trước"
+			    )
+		displayFolder: KPI hiển thị
+		lineageTag: c76a1fd2-a6d5-417a-8afb-559edc95a140
+
+	measure 'OD3-5 Δ cùng kỳ' =
+			VAR d = [OD3-5 Δ cùng kỳ (giá trị)]
+			RETURN
+			    IF (
+			        NOT ISBLANK ( d ),
+			        IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ) * 100, "0.00", "vi-VN" ) & " điểm % so với cùng tháng năm trước"
+			    )
+		displayFolder: KPI hiển thị
+		lineageTag: 21f60c86-794d-476d-81cb-14d0598139ec
+
+	measure 'Dư nợ OD2 Δ tháng' =
+			VAR d = [Dư nợ OD2 Δ tháng (giá trị)]
+			RETURN
+			    IF (
+			        NOT ISBLANK ( d ),
+			        IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ), "0.0%", "vi-VN" ) & " so với cuối tháng trước"
+			    )
+		displayFolder: KPI hiển thị
+		lineageTag: 6af3b1be-5084-4ab1-80a8-f9cb04a4d76a
+
+	measure 'Dư nợ OD2 Δ cùng kỳ' =
+			VAR d = [Dư nợ OD2 Δ cùng kỳ (giá trị)]
+			RETURN
+			    IF (
+			        NOT ISBLANK ( d ),
+			        IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ), "0.0%", "vi-VN" ) & " so với cùng tháng năm trước"
+			    )
+		displayFolder: KPI hiển thị
+		lineageTag: 9f0d6e5a-308f-4d6d-aed8-d650c087d490
+
+	measure 'Dư nợ OD3-5 Δ tháng' =
+			VAR d = [Dư nợ OD3-5 Δ tháng (giá trị)]
+			RETURN
+			    IF (
+			        NOT ISBLANK ( d ),
+			        IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ), "0.0%", "vi-VN" ) & " so với cuối tháng trước"
+			    )
+		displayFolder: KPI hiển thị
+		lineageTag: e315359c-ef2b-4c5a-9514-427b2b2d1f99
+
+	measure 'Dư nợ OD3-5 Δ cùng kỳ' =
+			VAR d = [Dư nợ OD3-5 Δ cùng kỳ (giá trị)]
+			RETURN
+			    IF (
+			        NOT ISBLANK ( d ),
+			        IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ), "0.0%", "vi-VN" ) & " so với cùng tháng năm trước"
+			    )
+		displayFolder: KPI hiển thị
+		lineageTag: 3531c432-0eec-4768-8a9d-9f4911e4cbb7
+
+	measure 'OD2 Δ tháng (giá trị)' = IF ( NOT ISBLANK ( [Tỷ lệ OD2 LM] ), [Tỷ lệ OD2] - [Tỷ lệ OD2 LM] )
+		formatString: 0.00%
+		displayFolder: Δ giá trị
+		lineageTag: c73194b6-7276-420c-b0e4-8a51af2b554d
+
+	measure 'OD2 Δ cùng kỳ (giá trị)' = IF ( NOT ISBLANK ( [Tỷ lệ OD2 LY] ), [Tỷ lệ OD2] - [Tỷ lệ OD2 LY] )
+		formatString: 0.00%
+		displayFolder: Δ giá trị
+		lineageTag: 5cfc003b-cd50-4051-838e-3f247982ac80
+
+	measure 'Dư nợ OD2 Δ tháng (giá trị)' = DIVIDE ( [Dư nợ OD2] - [Dư nợ OD2 LM], [Dư nợ OD2 LM] )
+		formatString: 0.0%
+		displayFolder: Δ giá trị
+		lineageTag: 51976405-b146-447c-8162-c727f2c9b022
+
+	measure 'Dư nợ OD2 Δ cùng kỳ (giá trị)' = DIVIDE ( [Dư nợ OD2] - [Dư nợ OD2 LY], [Dư nợ OD2 LY] )
+		formatString: 0.0%
+		displayFolder: Δ giá trị
+		lineageTag: fd68e72d-e1f2-4562-9b05-e9c7366a42c3
+
+	measure 'OD3-5 Δ tháng (giá trị)' = IF ( NOT ISBLANK ( [Tỷ lệ OD35 LM] ), [Tỷ lệ OD35] - [Tỷ lệ OD35 LM] )
+		formatString: 0.00%
+		displayFolder: Δ giá trị
+		lineageTag: 1edc99f3-2f97-4081-802a-b1de580d3ddf
+
+	measure 'OD3-5 Δ cùng kỳ (giá trị)' = IF ( NOT ISBLANK ( [Tỷ lệ OD35 LY] ), [Tỷ lệ OD35] - [Tỷ lệ OD35 LY] )
+		formatString: 0.00%
+		displayFolder: Δ giá trị
+		lineageTag: 8fefdaf4-ff4e-48b9-b0e4-df23fe4820e1
+
+	measure 'Dư nợ OD3-5 Δ tháng (giá trị)' = DIVIDE ( [Dư nợ OD35] - [Dư nợ OD35 LM], [Dư nợ OD35 LM] )
+		formatString: 0.0%
+		displayFolder: Δ giá trị
+		lineageTag: 4ea49682-9e91-4438-98d9-1cde44c7fea6
+
+	measure 'Dư nợ OD3-5 Δ cùng kỳ (giá trị)' = DIVIDE ( [Dư nợ OD35] - [Dư nợ OD35 LY], [Dư nợ OD35 LY] )
+		formatString: 0.0%
+		displayFolder: Δ giá trị
+		lineageTag: 5b3fb567-7c88-4db0-bcdf-d74bc8b4319b
+
+	measure 'Màu OD2 Δ tháng' =
+			VAR d = [OD2 Δ tháng (giá trị)]
+			RETURN
+			    IF ( ISBLANK ( d ) || d = 0, "#5F5E5A", IF ( d > 0, "#A32D2D", "#447A2A" ) )
+		displayFolder: Màu
+		lineageTag: ba321551-7066-4228-8766-9e0ea615a0f2
+
+	measure 'Màu Dư nợ OD2 Δ tháng' =
+			VAR d = [Dư nợ OD2 Δ tháng (giá trị)]
+			RETURN
+			    IF ( ISBLANK ( d ) || d = 0, "#5F5E5A", IF ( d > 0, "#A32D2D", "#447A2A" ) )
+		displayFolder: Màu
+		lineageTag: 6e7c5f42-1fbf-439e-ae6d-174b9e14e65c
+
+	measure 'Màu OD2 Δ cùng kỳ' =
+			VAR d = [OD2 Δ cùng kỳ (giá trị)]
+			RETURN
+			    IF ( ISBLANK ( d ) || d = 0, "#5F5E5A", IF ( d > 0, "#A32D2D", "#447A2A" ) )
+		displayFolder: Màu
+		lineageTag: df49aaeb-0f3f-495a-b4a5-bd16229cacd0
+
+	measure 'Màu Dư nợ OD2 Δ cùng kỳ' =
+			VAR d = [Dư nợ OD2 Δ cùng kỳ (giá trị)]
+			RETURN
+			    IF ( ISBLANK ( d ) || d = 0, "#5F5E5A", IF ( d > 0, "#A32D2D", "#447A2A" ) )
+		displayFolder: Màu
+		lineageTag: 4f5a20cb-20b7-440c-ab9f-295650781545
+
+	measure 'Màu OD3-5 Δ tháng' =
+			VAR d = [OD3-5 Δ tháng (giá trị)]
+			RETURN
+			    IF ( ISBLANK ( d ) || d = 0, "#5F5E5A", IF ( d > 0, "#A32D2D", "#447A2A" ) )
+		displayFolder: Màu
+		lineageTag: 4c974eac-0550-4a98-b856-396199b0068d
+
+	measure 'Màu Dư nợ OD3-5 Δ tháng' =
+			VAR d = [Dư nợ OD3-5 Δ tháng (giá trị)]
+			RETURN
+			    IF ( ISBLANK ( d ) || d = 0, "#5F5E5A", IF ( d > 0, "#A32D2D", "#447A2A" ) )
+		displayFolder: Màu
+		lineageTag: 9dc1ca9a-f3a9-489b-99cd-9fa042a4ac12
+
+	measure 'Màu OD3-5 Δ cùng kỳ' =
+			VAR d = [OD3-5 Δ cùng kỳ (giá trị)]
+			RETURN
+			    IF ( ISBLANK ( d ) || d = 0, "#5F5E5A", IF ( d > 0, "#A32D2D", "#447A2A" ) )
+		displayFolder: Màu
+		lineageTag: 9792b541-3386-4961-9f31-62b607547002
+
+	measure 'Màu Dư nợ OD3-5 Δ cùng kỳ' =
+			VAR d = [Dư nợ OD3-5 Δ cùng kỳ (giá trị)]
+			RETURN
+			    IF ( ISBLANK ( d ) || d = 0, "#5F5E5A", IF ( d > 0, "#A32D2D", "#447A2A" ) )
+		displayFolder: Màu
+		lineageTag: 4ee855b1-9d7b-46ee-91e2-9d10330a79aa
+
+	measure 'KPI Tỷ lệ OD2' = IF ( ISBLANK ( [Tỷ lệ OD2] ), "–", FORMAT ( [Tỷ lệ OD2] * 100, "#,0.00", "vi-VN" ) )
+		displayFolder: KPI hiển thị
+		lineageTag: baf87908-7a6e-4b47-b0e1-499460a85963
+
+	measure 'KPI Tỷ lệ OD3-5' = IF ( ISBLANK ( [Tỷ lệ OD35] ), "–", FORMAT ( [Tỷ lệ OD35] * 100, "#,0.00", "vi-VN" ) )
+		displayFolder: KPI hiển thị
+		lineageTag: babeefae-17cf-48ac-8c07-44a2a8621d34
+
+	measure 'KPI Dư nợ OD2' = IF ( ISBLANK ( [Dư nợ OD2] ), "–", FORMAT ( [Dư nợ OD2] / 1e9, "#,0.0", "vi-VN" ) )
+		displayFolder: KPI hiển thị
+		lineageTag: 78c555d5-ab5e-4422-ac31-5a9c3bb49664
+
+	measure 'KPI Dư nợ OD3-5' = IF ( ISBLANK ( [Dư nợ OD35] ), "–", FORMAT ( [Dư nợ OD35] / 1e9, "#,0.0", "vi-VN" ) )
+		displayFolder: KPI hiển thị
+		lineageTag: 8eef8852-3970-41ac-9908-6d308e26412b
+
+	measure 'Ngày báo cáo' = FORMAT ( MAX ( dim_date[month_end_date] ), "dd/MM/yyyy" )
+		displayFolder: KPI hiển thị
+		lineageTag: be42dfcf-9271-4cad-91f8-ac56fa0c69b1
+
+	measure 'Tiêu đề Hình 16' = "Hình 16: Phân bổ nhóm nợ của Top 10 ngành tại " & [Ngày báo cáo] & " (% dư nợ)"
+		displayFolder: KPI hiển thị
+		lineageTag: ccb67e56-c24d-4cd6-ac26-b1cf8831f30a
+
+	measure 'Tiêu đề Hình 17' = "Hình 17: Tỷ lệ OD của Top 10 ĐVKD tại " & [Ngày báo cáo] & " (%)"
+		displayFolder: KPI hiển thị
+		lineageTag: bde8a0d9-d07f-45cd-9c91-57b8cd3f985e
+
+	measure 'Hạng ngành' =
+			IF (
+			    ISINSCOPE ( dim_industry[industry_name] ) && NOT ISBLANK ( [Dư nợ] ),
+			    RANKX ( ALLSELECTED ( dim_industry[industry_name] ), [Dư nợ], , DESC )
+			)
+		formatString: 0
+		displayFolder: Top 10 ngành
+		lineageTag: 12674090-03ac-44ed-87cd-ff70dbb9c803
+
+	measure 'Là Top 10 ngành' = VAR r = [Hạng ngành] RETURN NOT ISBLANK ( r ) && r <= 10
+		displayFolder: Top 10 ngành
+		lineageTag: 26b17eb9-db62-43d3-bbf4-aa72c007fec0
+
+	measure 'Dư nợ Top 10 ngành' = IF ( [Là Top 10 ngành], [Dư nợ] )
+		formatString: #,0
+		displayFolder: Top 10 ngành
+		lineageTag: 01b868fc-e3d9-4150-9659-593ee86c27c5
+
+	measure 'Nhãn OD ngành' =
+			IF (
+			    [Là Top 10 ngành],
+			    "OD2 " & FORMAT ( [Tỷ lệ OD2] * 100, "0.0", "vi-VN" ) & "% · OD3-5 "
+			        & FORMAT ( [Tỷ lệ OD35] * 100, "0.0", "vi-VN" ) & "%"
+			)
+		displayFolder: Top 10 ngành
+		lineageTag: 693e163c-47d8-4519-9174-2a48dca2497d
+
+	measure 'Cơ cấu nhóm nợ (SVG)' =
+			VAR W = 200
+			VAR H = 22
+			VAR tot = [Dư nợ]
+			VAR w1 = DIVIDE ( CALCULATE ( [Dư nợ], dim_debt_group[debt_group_code] = "NORM" ), tot ) * W
+			VAR w2 = DIVIDE ( CALCULATE ( [Dư nợ], dim_debt_group[debt_group_code] = "OD2" ), tot ) * W
+			VAR w3 = DIVIDE ( CALCULATE ( [Dư nợ], dim_debt_group[debt_group_code] = "OD3" ), tot ) * W
+			VAR w4 = DIVIDE ( CALCULATE ( [Dư nợ], dim_debt_group[debt_group_code] = "OD4" ), tot ) * W
+			VAR w5 = DIVIDE ( CALCULATE ( [Dư nợ], dim_debt_group[debt_group_code] = "OD5" ), tot ) * W
+			VAR x1 = 0
+			VAR x2 = x1 + w1
+			VAR x3 = x2 + w2
+			VAR x4 = x3 + w3
+			VAR x5 = x4 + w4
+			RETURN
+			    IF (
+			        [Là Top 10 ngành],
+			        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='" & W & "' height='" & H & "'>"
+			            & "<rect x='" & FORMAT ( x1, "0.00", "en-US" ) & "' y='3' width='" & FORMAT ( w1 + 0, "0.00", "en-US" ) & "' height='" & H - 6 & "' fill='%23D3E4C6'/>"
+			            & "<rect x='" & FORMAT ( x2, "0.00", "en-US" ) & "' y='3' width='" & FORMAT ( w2 + 0, "0.00", "en-US" ) & "' height='" & H - 6 & "' fill='%231E3A14'/>"
+			            & "<rect x='" & FORMAT ( x3, "0.00", "en-US" ) & "' y='3' width='" & FORMAT ( w3 + 0, "0.00", "en-US" ) & "' height='" & H - 6 & "' fill='%235FA043'/>"
+			            & "<rect x='" & FORMAT ( x4, "0.00", "en-US" ) & "' y='3' width='" & FORMAT ( w4 + 0, "0.00", "en-US" ) & "' height='" & H - 6 & "' fill='%23128070'/>"
+			            & "<rect x='" & FORMAT ( x5, "0.00", "en-US" ) & "' y='3' width='" & FORMAT ( w5 + 0, "0.00", "en-US" ) & "' height='" & H - 6 & "' fill='%23EFD99A'/>"
+			            & "</svg>"
+			    )
+		displayFolder: Top 10 ngành
+		lineageTag: 04aaf048-15e0-4dbe-9221-48590f75e17a
+		dataCategory: ImageUrl
+
+	measure 'Hạng ĐVKD' =
+			IF (
+			    ISINSCOPE ( dim_branch[ĐVKD] ) && NOT ISBLANK ( [Dư nợ] ),
+			    RANKX ( ALLSELECTED ( dim_branch[ĐVKD] ), [Dư nợ], , DESC )
+			)
+		formatString: 0
+		displayFolder: Top 10 ĐVKD
+		lineageTag: b57f5c49-13a4-4a13-a47b-931845e3bf0e
+
+	measure 'Là Top 10 ĐVKD' = VAR r = [Hạng ĐVKD] RETURN NOT ISBLANK ( r ) && r <= 10
+		displayFolder: Top 10 ĐVKD
+		lineageTag: b563ecf1-0b57-4182-876e-d2b416340e8b
+
+	measure 'Dư nợ Top 10 ĐVKD' = IF ( [Là Top 10 ĐVKD], [Dư nợ] )
+		formatString: #,0
+		displayFolder: Top 10 ĐVKD
+		lineageTag: cce6c8e9-6f81-4e54-8811-97eb77e09e51
+
+	measure 'ĐVKD OD2 hiện tại' = IF ( [Là Top 10 ĐVKD], IF ( ISBLANK ( [Tỷ lệ OD2] ), "–", FORMAT ( [Tỷ lệ OD2], "0.00%", "vi-VN" ) ) )
+		displayFolder: Top 10 ĐVKD
+		lineageTag: 3a09788d-5a98-4959-8c87-8f5ce913a329
+
+	measure 'ĐVKD OD2 cuối tháng trước' = IF ( [Là Top 10 ĐVKD], IF ( ISBLANK ( [Tỷ lệ OD2 LM] ), "–", FORMAT ( [Tỷ lệ OD2 LM], "0.00%", "vi-VN" ) ) )
+		displayFolder: Top 10 ĐVKD
+		lineageTag: 9decc3dd-20a1-46d1-819d-648f3c0a5570
+
+	measure 'ĐVKD OD2 cùng tháng năm trước' = IF ( [Là Top 10 ĐVKD], IF ( ISBLANK ( [Tỷ lệ OD2 LY] ), "–", FORMAT ( [Tỷ lệ OD2 LY], "0.00%", "vi-VN" ) ) )
+		displayFolder: Top 10 ĐVKD
+		lineageTag: d0f309ed-edfa-424e-8ec8-d125f5af9500
+
+	measure 'ĐVKD OD2 Δ tháng' =
+			VAR d = [OD2 Δ tháng (giá trị)]
+			RETURN
+			    IF (
+			        [Là Top 10 ĐVKD],
+			        IF ( ISBLANK ( d ), "–", IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ) * 100, "0.00", "vi-VN" ) )
+			    )
+		displayFolder: Top 10 ĐVKD
+		lineageTag: 0dec0dda-0cdf-472d-bd3e-ba6bf72f06e4
+
+	measure 'ĐVKD OD2 Δ cùng kỳ' =
+			VAR d = [OD2 Δ cùng kỳ (giá trị)]
+			RETURN
+			    IF (
+			        [Là Top 10 ĐVKD],
+			        IF ( ISBLANK ( d ), "–", IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ) * 100, "0.00", "vi-VN" ) )
+			    )
+		displayFolder: Top 10 ĐVKD
+		lineageTag: a995cc1c-e1d2-4243-a0aa-c234c967de34
+
+	measure 'ĐVKD OD3-5 hiện tại' = IF ( [Là Top 10 ĐVKD], IF ( ISBLANK ( [Tỷ lệ OD35] ), "–", FORMAT ( [Tỷ lệ OD35], "0.00%", "vi-VN" ) ) )
+		displayFolder: Top 10 ĐVKD
+		lineageTag: 59d3d30e-7031-4d86-8114-ad7d9cf1f90c
+
+	measure 'ĐVKD OD3-5 cuối tháng trước' = IF ( [Là Top 10 ĐVKD], IF ( ISBLANK ( [Tỷ lệ OD35 LM] ), "–", FORMAT ( [Tỷ lệ OD35 LM], "0.00%", "vi-VN" ) ) )
+		displayFolder: Top 10 ĐVKD
+		lineageTag: 908890ea-1c2b-435a-ba05-3bb9aef39007
+
+	measure 'ĐVKD OD3-5 cùng tháng năm trước' = IF ( [Là Top 10 ĐVKD], IF ( ISBLANK ( [Tỷ lệ OD35 LY] ), "–", FORMAT ( [Tỷ lệ OD35 LY], "0.00%", "vi-VN" ) ) )
+		displayFolder: Top 10 ĐVKD
+		lineageTag: b2028f20-774a-4f3a-8c69-293a461a22ac
+
+	measure 'ĐVKD OD3-5 Δ tháng' =
+			VAR d = [OD3-5 Δ tháng (giá trị)]
+			RETURN
+			    IF (
+			        [Là Top 10 ĐVKD],
+			        IF ( ISBLANK ( d ), "–", IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ) * 100, "0.00", "vi-VN" ) )
+			    )
+		displayFolder: Top 10 ĐVKD
+		lineageTag: 74c3002b-8e26-4732-ab76-221b94878c0e
+
+	measure 'ĐVKD OD3-5 Δ cùng kỳ' =
+			VAR d = [OD3-5 Δ cùng kỳ (giá trị)]
+			RETURN
+			    IF (
+			        [Là Top 10 ĐVKD],
+			        IF ( ISBLANK ( d ), "–", IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ) * 100, "0.00", "vi-VN" ) )
+			    )
+		displayFolder: Top 10 ĐVKD
+		lineageTag: 2510c2b6-6b89-4a88-8a21-1e63088a1fff
+
+	measure 'Xu hướng OD2' =
+			VAR sel = MAX ( dim_date[month_end_date] )
+			VAR mth = MAX ( 'Trục tháng'[Tháng] )
+			RETURN
+			    IF ( mth <= sel, CALCULATE ( [Tỷ lệ OD2], dim_date[month_end_date] = mth ) )
+		formatString: 0.00%
+		displayFolder: Xu hướng
+		lineageTag: 51596b41-1f7a-4298-8c1c-951d80c298a8
+
+	measure 'Xu hướng OD2 (kỳ báo cáo)' = IF ( MAX ( 'Trục tháng'[Tháng] ) = MAX ( dim_date[month_end_date] ), [Xu hướng OD2] )
+		formatString: 0.00%
+		displayFolder: Xu hướng
+		lineageTag: 5c70c3d7-bb95-4044-bea5-91fbf4e33123
+
+	measure 'Xu hướng OD3-5' =
+			VAR sel = MAX ( dim_date[month_end_date] )
+			VAR mth = MAX ( 'Trục tháng'[Tháng] )
+			RETURN
+			    IF ( mth <= sel, CALCULATE ( [Tỷ lệ OD35], dim_date[month_end_date] = mth ) )
+		formatString: 0.00%
+		displayFolder: Xu hướng
+		lineageTag: 0a806a64-2efc-45f5-8dbc-ca27079f4977
+
+	measure 'Xu hướng OD3-5 (kỳ báo cáo)' = IF ( MAX ( 'Trục tháng'[Tháng] ) = MAX ( dim_date[month_end_date] ), [Xu hướng OD3-5] )
+		formatString: 0.00%
+		displayFolder: Xu hướng
+		lineageTag: ccd74592-e366-4ade-8cf3-602fa8e9d502
+
+	measure 'OD2 Δ tháng (ngắn)' =
+			VAR d = [OD2 Δ tháng (giá trị)]
+			RETURN IF ( ISBLANK ( d ), "–", IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ) * 100, "0.00", "vi-VN" ) & " điểm %" )
+		displayFolder: KPI hiển thị
+
+	measure 'OD2 Δ cùng kỳ (ngắn)' =
+			VAR d = [OD2 Δ cùng kỳ (giá trị)]
+			RETURN IF ( ISBLANK ( d ), "–", IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ) * 100, "0.00", "vi-VN" ) & " điểm %" )
+		displayFolder: KPI hiển thị
+
+	measure 'OD3-5 Δ tháng (ngắn)' =
+			VAR d = [OD3-5 Δ tháng (giá trị)]
+			RETURN IF ( ISBLANK ( d ), "–", IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ) * 100, "0.00", "vi-VN" ) & " điểm %" )
+		displayFolder: KPI hiển thị
+
+	measure 'OD3-5 Δ cùng kỳ (ngắn)' =
+			VAR d = [OD3-5 Δ cùng kỳ (giá trị)]
+			RETURN IF ( ISBLANK ( d ), "–", IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ) * 100, "0.00", "vi-VN" ) & " điểm %" )
+		displayFolder: KPI hiển thị
+
+	measure 'Dư nợ OD2 Δ tháng (ngắn)' =
+			VAR d = [Dư nợ OD2 Δ tháng (giá trị)]
+			RETURN IF ( ISBLANK ( d ), "–", IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ), "0.0%", "vi-VN" ) )
+		displayFolder: KPI hiển thị
+
+	measure 'Dư nợ OD2 Δ cùng kỳ (ngắn)' =
+			VAR d = [Dư nợ OD2 Δ cùng kỳ (giá trị)]
+			RETURN IF ( ISBLANK ( d ), "–", IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ), "0.0%", "vi-VN" ) )
+		displayFolder: KPI hiển thị
+
+	measure 'Dư nợ OD3-5 Δ tháng (ngắn)' =
+			VAR d = [Dư nợ OD3-5 Δ tháng (giá trị)]
+			RETURN IF ( ISBLANK ( d ), "–", IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ), "0.0%", "vi-VN" ) )
+		displayFolder: KPI hiển thị
+
+	measure 'Dư nợ OD3-5 Δ cùng kỳ (ngắn)' =
+			VAR d = [Dư nợ OD3-5 Δ cùng kỳ (giá trị)]
+			RETURN IF ( ISBLANK ( d ), "–", IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ), "0.0%", "vi-VN" ) )
+		displayFolder: KPI hiển thị
+
+	column Column
+		formatString: 0
+		lineageTag: fe7f172e-7682-46e1-8c62-da281d6708d0
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Tỉ lệ thay đổi' = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = aebe36ba31bd4099840f7344980057c0
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":null}
+
+	annotation 277cc1b9-af89-4597-8e15-cacc25c0886b = To use special characters in a calculated table name, enclose the entire name in brackets ( [] ) and add a ] to any closing brackets in the name.
+
