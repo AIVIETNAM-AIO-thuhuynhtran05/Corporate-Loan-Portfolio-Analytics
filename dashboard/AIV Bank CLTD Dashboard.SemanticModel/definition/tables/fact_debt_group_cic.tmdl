@@ -1,0 +1,67 @@
+table fact_debt_group_cic
+	lineageTag: 8d0bbda1-04c5-4735-a429-40a8b361df71
+
+	column snapshot_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 5b7ceabd-df19-4e6d-9114-d748faff3069
+		summarizeBy: none
+		sourceColumn: snapshot_date
+
+		variation Variation
+			isDefault
+			relationship: f85f630d-ef17-457e-afc9-0334932f16bc
+			defaultHierarchy: LocalDateTable_a5d3909d-d1bd-4c3d-ac3a-55c19e89fbae.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column cif
+		dataType: string
+		lineageTag: 71a02b62-3486-408d-9dbf-e5246c96b4c1
+		summarizeBy: none
+		sourceColumn: cif
+
+		annotation SummarizationSetBy = Automatic
+
+	column internal_debt_group_id
+		dataType: int64
+		formatString: 0
+		lineageTag: d5dcc25a-1b7c-4bfe-adac-88f2f9f5a173
+		summarizeBy: sum
+		sourceColumn: internal_debt_group_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column cic_debt_group_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 3cbca4ec-0a2c-45fd-8394-5ea68bbdebca
+		summarizeBy: sum
+		sourceColumn: cic_debt_group_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column max_days_past_due
+		dataType: int64
+		formatString: 0
+		lineageTag: 5bff231f-a49f-4872-a7e8-7c091168b51f
+		summarizeBy: sum
+		sourceColumn: max_days_past_due
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_debt_group_cic = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents("D:\eDA\Module_2\data-20261014T075931Z-1-001\data\AIV_Bank_KHDN_Dataset.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "fact_debt_group_cic", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"snapshot_date", type date}, {"cif", type text}, {"internal_debt_group_id", Int64.Type}, {"cic_debt_group_id", Int64.Type}, {"max_days_past_due", Int64.Type}})
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+

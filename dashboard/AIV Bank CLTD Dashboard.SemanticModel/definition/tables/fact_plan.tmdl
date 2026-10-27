@@ -1,0 +1,52 @@
+table fact_plan
+	lineageTag: 9d170d0d-cc84-4ced-b489-4ded9542b648
+
+	column month_id
+		dataType: int64
+		formatString: 0
+		lineageTag: cd8444dd-e027-4b9b-bdab-8adde3fc9b08
+		summarizeBy: sum
+		sourceColumn: month_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column branch_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 11c6eb7b-0a2a-444e-ba85-24e46a140f87
+		summarizeBy: none
+		sourceColumn: branch_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column plan_balance_vnd
+		dataType: int64
+		formatString: 0
+		lineageTag: 40810bcc-08f1-40e2-9184-e233ed4a4e37
+		summarizeBy: sum
+		sourceColumn: plan_balance_vnd
+
+		annotation SummarizationSetBy = Automatic
+
+	column plan_nii_vnd
+		dataType: int64
+		formatString: 0
+		lineageTag: cea14236-b5cd-4eb1-ac4b-b31d22fe80b0
+		summarizeBy: sum
+		sourceColumn: plan_nii_vnd
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_plan = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents("D:\eDA\Module_2\data-20261014T075931Z-1-001\data\AIV_Bank_KHDN_Dataset.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "fact_plan", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"month_id", Int64.Type}, {"branch_id", Int64.Type}, {"plan_balance_vnd", Int64.Type}, {"plan_nii_vnd", Int64.Type}})
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+

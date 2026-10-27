@@ -1,0 +1,155 @@
+table fact_income_monthly
+	lineageTag: 62f5fef9-811e-441e-b001-e813b144b496
+
+	column period_end_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 7914299c-efba-4fc1-b772-5c0565a4a9cc
+		summarizeBy: none
+		sourceColumn: period_end_date
+
+		variation Variation
+			isDefault
+			relationship: c4a04fb1-d784-4f51-96ae-acf36a51c090
+			defaultHierarchy: LocalDateTable_552e127b-af57-4227-b123-6fa7741495a3.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column month_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 9bd82844-8691-483f-b381-081bc4e184f4
+		summarizeBy: sum
+		sourceColumn: month_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column contract_id
+		dataType: string
+		lineageTag: 340d1699-a0b4-4314-abb2-cde7f9da2e6a
+		summarizeBy: none
+		sourceColumn: contract_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column days_in_month
+		dataType: int64
+		formatString: 0
+		lineageTag: 854bfe8a-dc1f-48ba-86d2-91bfd8bb8247
+		summarizeBy: sum
+		sourceColumn: days_in_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column debt_group_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 8cb5163c-11a3-4462-8252-95ba9ae5eda4
+		summarizeBy: none
+		sourceColumn: debt_group_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_balance_vnd
+		dataType: int64
+		formatString: 0
+		lineageTag: 7f6fa159-730c-4874-9255-fa9d93b237a4
+		summarizeBy: sum
+		sourceColumn: avg_balance_vnd
+
+		annotation SummarizationSetBy = Automatic
+
+	column interest_income_vnd
+		dataType: int64
+		formatString: 0
+		lineageTag: 31f6ef73-99b5-40fc-830c-e98c61b80f5e
+		summarizeBy: sum
+		sourceColumn: interest_income_vnd
+
+		annotation SummarizationSetBy = Automatic
+
+	column funding_cost_vnd
+		dataType: int64
+		formatString: 0
+		lineageTag: f520a98d-0a87-46fe-a315-7d06f90151d5
+		summarizeBy: sum
+		sourceColumn: funding_cost_vnd
+
+		annotation SummarizationSetBy = Automatic
+
+	column nii_mtd
+		dataType: int64
+		formatString: 0
+		lineageTag: b327bf87-cb09-44e0-b818-de8d2f88aa55
+		summarizeBy: sum
+		sourceColumn: nii_mtd
+
+		annotation SummarizationSetBy = Automatic
+
+	column fee_origination_vnd
+		dataType: int64
+		formatString: 0
+		lineageTag: 81a1ed53-00db-4001-bcc8-13ac3dc324a3
+		summarizeBy: sum
+		sourceColumn: fee_origination_vnd
+
+		annotation SummarizationSetBy = Automatic
+
+	column fee_service_vnd
+		dataType: int64
+		formatString: 0
+		lineageTag: abe1b9ac-7ddb-405d-b2fa-8ccc51d883e1
+		summarizeBy: sum
+		sourceColumn: fee_service_vnd
+
+		annotation SummarizationSetBy = Automatic
+
+	column nfi_mtd
+		dataType: int64
+		formatString: 0
+		lineageTag: 86000315-fb00-44d9-a464-b1497cd6679d
+		summarizeBy: sum
+		sourceColumn: nfi_mtd
+
+		annotation SummarizationSetBy = Automatic
+
+	column toi_mtd
+		dataType: int64
+		formatString: 0
+		lineageTag: 46afc2f6-c705-4c69-9ee5-633f8ab20498
+		summarizeBy: sum
+		sourceColumn: toi_mtd
+
+		annotation SummarizationSetBy = Automatic
+
+	column fee_type
+		dataType: string
+		lineageTag: 3a5a8e00-1f78-4b08-8b29-d626b8e081ce
+		summarizeBy: none
+		sourceColumn: fee_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column nim_pct
+		dataType: double
+		lineageTag: d475bda7-80ed-493f-8e0d-2f90e1d5430c
+		summarizeBy: sum
+		sourceColumn: nim_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition fact_income_monthly = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents("D:\eDA\Module_2\data-20261014T075931Z-1-001\data\AIV_Bank_KHDN_Dataset.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "fact_income_monthly", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"period_end_date", type date}, {"month_id", Int64.Type}, {"contract_id", type text}, {"days_in_month", Int64.Type}, {"debt_group_id", Int64.Type}, {"avg_balance_vnd", Int64.Type}, {"interest_income_vnd", Int64.Type}, {"funding_cost_vnd", Int64.Type}, {"nii_mtd", Int64.Type}, {"fee_origination_vnd", Int64.Type}, {"fee_service_vnd", Int64.Type}, {"nfi_mtd", Int64.Type}, {"toi_mtd", Int64.Type}, {"fee_type", type text}, {"nim_pct", type number}})
+				in
+				  #"Changed column type"
+

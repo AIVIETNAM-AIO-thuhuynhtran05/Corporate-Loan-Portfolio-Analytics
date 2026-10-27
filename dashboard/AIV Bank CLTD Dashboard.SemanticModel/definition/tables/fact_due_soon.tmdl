@@ -1,0 +1,65 @@
+table fact_due_soon
+	lineageTag: bc85d61c-cc99-4edf-82ef-9f2bb2b73f0e
+
+	column snapshot_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 88671ab8-ee82-4b5f-a074-94dcf0ace30c
+		summarizeBy: none
+		sourceColumn: snapshot_date
+
+		variation Variation
+			isDefault
+			relationship: fd7cbea4-a779-44e7-b2f8-7037d7af66c6
+			defaultHierarchy: LocalDateTable_1d68bd3e-cbdb-45f4-9f39-1694b57da5b7.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column contract_id
+		dataType: string
+		lineageTag: b60798e1-2244-460c-8e2a-45e58d37777f
+		summarizeBy: none
+		sourceColumn: contract_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column due_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 53d1e697-2efa-4586-b04f-d0433496534b
+		summarizeBy: none
+		sourceColumn: due_date
+
+		variation Variation
+			isDefault
+			relationship: d6da5877-b1ce-434b-9a99-80be4d3e08cb
+			defaultHierarchy: LocalDateTable_b9a10e67-dbfc-43be-bbed-69ddafc98d0e.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column principal_due_vnd
+		dataType: int64
+		formatString: 0
+		lineageTag: 97eb26bf-0f4f-423a-bbba-11d2cfb01db2
+		summarizeBy: sum
+		sourceColumn: principal_due_vnd
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_due_soon = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents("D:\eDA\Module_2\data-20261014T075931Z-1-001\data\AIV_Bank_KHDN_Dataset.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "fact_due_soon", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"snapshot_date", type date}, {"contract_id", type text}, {"due_date", type date}, {"principal_due_vnd", Int64.Type}})
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+

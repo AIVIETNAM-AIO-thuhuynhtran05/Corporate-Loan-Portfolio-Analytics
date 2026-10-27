@@ -1,0 +1,96 @@
+table dim_campaign
+	lineageTag: 27b28256-bbf5-4e62-ac61-eb7bffa6db5a
+
+	column campaign_id
+		dataType: string
+		lineageTag: 07e35348-fac7-46a0-b4b0-3953116f1b04
+		summarizeBy: none
+		sourceColumn: campaign_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column campaign_name
+		dataType: string
+		lineageTag: 687fe861-04da-4b88-b913-4485b120863e
+		summarizeBy: none
+		sourceColumn: campaign_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column category
+		dataType: string
+		lineageTag: 641c7f9a-2ed2-427d-8938-fa6018c21507
+		summarizeBy: none
+		sourceColumn: category
+
+		annotation SummarizationSetBy = Automatic
+
+	column sub_category
+		dataType: string
+		lineageTag: 913544f9-2daa-4377-ba5a-beee54f0711b
+		summarizeBy: none
+		sourceColumn: sub_category
+
+		annotation SummarizationSetBy = Automatic
+
+	column rate_discount_pp
+		dataType: double
+		lineageTag: be19c229-15db-46f0-8533-f2ba75cb7d61
+		summarizeBy: sum
+		sourceColumn: rate_discount_pp
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column valid_from
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: ddc7447c-5803-4c3b-a7a8-ededdcbcc502
+		summarizeBy: none
+		sourceColumn: valid_from
+
+		variation Variation
+			isDefault
+			relationship: f2968cb9-6df1-42db-9364-6b6469e894f4
+			defaultHierarchy: LocalDateTable_8d939091-5c2c-4f1d-88d3-3dbbb50f16f7.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column valid_to
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 57c369ae-62a1-4f34-8c31-18defb1f03ce
+		summarizeBy: none
+		sourceColumn: valid_to
+
+		variation Variation
+			isDefault
+			relationship: 543745ed-b4a8-447a-9107-c104b1a1fab5
+			defaultHierarchy: LocalDateTable_f27e265c-1397-483d-9086-e569f07f28f1.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column eligible_term
+		dataType: string
+		lineageTag: 34f1f373-acc2-4237-bdd0-a516d0780438
+		summarizeBy: none
+		sourceColumn: eligible_term
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_campaign = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents("D:\eDA\Module_2\data-20261014T075931Z-1-001\data\AIV_Bank_KHDN_Dataset.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "dim_campaign", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"campaign_id", type text}, {"campaign_name", type text}, {"category", type text}, {"sub_category", type text}, {"rate_discount_pp", type number}, {"valid_from", type date}, {"valid_to", type date}, {"eligible_term", type text}})
+				in
+				  #"Changed column type"
+

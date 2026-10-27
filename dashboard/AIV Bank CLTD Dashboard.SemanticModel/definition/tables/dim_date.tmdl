@@ -1,0 +1,218 @@
+table dim_date
+	lineageTag: ca9f2ee8-18ad-486e-867a-09a4e8600c55
+
+	column date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 617e1c81-4630-4e98-8f06-e9b91b8bb5c2
+		summarizeBy: none
+		sourceColumn: date
+
+		variation Variation
+			isDefault
+			relationship: ad6b65f2-e3e6-4631-bb10-934ecb4986de
+			defaultHierarchy: LocalDateTable_7a5a8f4c-b3ad-4815-83f9-a4a7a8bd09d5.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 4591f695-111c-4787-9e9d-ed23fc0b1ba8
+		summarizeBy: sum
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: 5345fbf5-23cc-4a48-9fbc-24260681a20b
+		summarizeBy: sum
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column quarter
+		dataType: int64
+		formatString: 0
+		lineageTag: 59c22fe0-1a80-4649-a0f2-cabeeef76383
+		summarizeBy: sum
+		sourceColumn: quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: int64
+		formatString: 0
+		lineageTag: 10f56a48-a332-4769-a0d7-7125686ab84e
+		summarizeBy: sum
+		sourceColumn: month
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 97277a87-0929-483d-9ea9-9fb962be9aac
+		summarizeBy: sum
+		sourceColumn: month_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_name
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: d2b41568-a280-47bd-83cb-b527327f2326
+		summarizeBy: none
+		sourceColumn: month_name
+
+		variation Variation
+			isDefault
+			relationship: 7f747b5f-80d7-4560-ae73-03cc1e5a1213
+			defaultHierarchy: LocalDateTable_40439145-38a5-452f-9709-ab2f0de7f401.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column day
+		dataType: int64
+		formatString: 0
+		lineageTag: ac88db3f-8537-4276-b52c-0869583e5f41
+		summarizeBy: sum
+		sourceColumn: day
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_end_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: d86bcf1c-cb8a-4fb2-b641-5e8e61ce2147
+		summarizeBy: none
+		sourceColumn: month_end_date
+
+		variation Variation
+			isDefault
+			relationship: 81aa1ae3-e123-4a7b-b4ae-e764879c7166
+			defaultHierarchy: LocalDateTable_46d77ffc-d9de-455a-931c-54682d3fb0d7.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column days_in_month
+		dataType: int64
+		formatString: 0
+		lineageTag: bcee5484-f2bb-416c-bef8-55d9095c8856
+		summarizeBy: sum
+		sourceColumn: days_in_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_month_end
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 070e41f7-7589-4d55-8ef1-fe6d88bd5eff
+		summarizeBy: none
+		sourceColumn: is_month_end
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_year_end
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d138a832-e0ac-4704-8df9-6abbe02a9848
+		summarizeBy: none
+		sourceColumn: is_year_end
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_latest_date
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 29c1a4aa-7e8a-4826-93e2-19b9293dd950
+		summarizeBy: none
+		sourceColumn: is_latest_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column has_data
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 73b2e914-0081-43bf-98ac-81a17017e29a
+		summarizeBy: none
+		sourceColumn: has_data
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_reportable
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: fb8e6409-094d-41e9-bf04-482516306bf3
+		summarizeBy: none
+		sourceColumn: is_reportable
+
+		annotation SummarizationSetBy = Automatic
+
+	column prev_month_end
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: abe5e4f9-e3c1-40ba-a1e8-e87c5392bad6
+		summarizeBy: none
+		sourceColumn: prev_month_end
+
+		variation Variation
+			isDefault
+			relationship: 701852c5-73c3-413a-b4cd-2340d4779cb9
+			defaultHierarchy: LocalDateTable_14fe7bd3-d40d-488b-b207-eae6b47cd553.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column same_month_prev_year_end
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 42eb8b2e-bce1-4909-bc5b-877c548d54f0
+		summarizeBy: none
+		sourceColumn: same_month_prev_year_end
+
+		variation Variation
+			isDefault
+			relationship: 7de0f4df-87d3-443c-98cc-e0d596e8fdac
+			defaultHierarchy: LocalDateTable_b6f46c30-7639-4d6d-ad38-6640baf06dde.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column prev_year_end
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: d0faa030-09fb-4f89-b100-a636ccf0a24b
+		summarizeBy: none
+		sourceColumn: prev_year_end
+
+		variation Variation
+			isDefault
+			relationship: d82fde65-9cba-4b6a-8f78-5cdb238fc917
+			defaultHierarchy: LocalDateTable_5fb2c2bc-d0e2-4bf1-afc0-ab3b4cbcb1f1.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition dim_date = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents("D:\eDA\Module_2\data-20261014T075931Z-1-001\data\AIV_Bank_KHDN_Dataset.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "dim_date", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"date", type date}, {"date_key", Int64.Type}, {"year", Int64.Type}, {"quarter", Int64.Type}, {"month", Int64.Type}, {"month_id", Int64.Type}, {"month_name", type date}, {"day", Int64.Type}, {"month_end_date", type date}, {"days_in_month", Int64.Type}, {"is_month_end", type logical}, {"is_year_end", type logical}, {"is_latest_date", type logical}, {"has_data", type logical}, {"is_reportable", type logical}, {"prev_month_end", type date}, {"same_month_prev_year_end", type date}, {"prev_year_end", type date}})
+				in
+				  #"Changed column type"
+

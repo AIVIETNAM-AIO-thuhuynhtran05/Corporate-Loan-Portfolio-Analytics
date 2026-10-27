@@ -1,0 +1,39 @@
+table dim_industry
+	lineageTag: ce7aa8d7-3b18-4544-95fc-925288609f51
+
+	column industry_id
+		dataType: int64
+		formatString: 0
+		lineageTag: ebb27ad2-907b-41ad-8a92-8174dc0d9f93
+		summarizeBy: none
+		sourceColumn: industry_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column industry_name
+		dataType: string
+		lineageTag: e7070b0d-d07c-4adc-9426-a6fb61d9c98c
+		summarizeBy: none
+		sourceColumn: industry_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column industry_group
+		dataType: string
+		lineageTag: 537466f8-9c6c-4588-be87-77598e1a083d
+		summarizeBy: none
+		sourceColumn: industry_group
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_industry = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents("D:\eDA\Module_2\data-20261014T075931Z-1-001\data\AIV_Bank_KHDN_Dataset.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "dim_industry", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"industry_id", Int64.Type}, {"industry_name", type text}, {"industry_group", type text}})
+				in
+				  #"Changed column type"
+
