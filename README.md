@@ -42,9 +42,18 @@ The main issue in H1/2026 is **the quality of growth, not its size**: loans grew
 6. **Income is as concentrated as loans.** The top 20% of customers hold 80.8% of loans and generate 82.5% of TOI (Gini 0.77 and 0.75). Single-name risk is still low: the top 10 hold 9.8%. 346 customers have negative TOI (−73 bn), all with group 3–5 loans that no longer accrue interest.
 7. **Early warning from the credit bureau.** 101 customers (825 bn, 0.84% of loans) are still group 1 internally but already group 2 at CIC.
 
-**Suggested priorities:** review short-term VND pricing and the CT0801 programme; monitor real estate, starting with the 4 top-10 names; report bad debt with and without one-off large loans; use the CIC list as an early-warning feed; find out why customers leave and restore SMALL-segment margins (NII −11.5%).
-
 **Limits:** the data is synthetic; the analysis is descriptive (correlation, not causation); there is no operating or credit cost data, so profit after provisions cannot be assessed.
+
+## Recommendations
+
+| # | Recommendation | Evidence | Where to track it |
+|---|---|---|---|
+| 1 | Review short-term VND pricing and decide on the CT0801 programme, which expired on 30/06/2026 | Short-term NIM fell from 1.62% to 1.38%; CT0801 holds 6,151 bn, mostly rollovers that will now be repriced | Deep dive: NIM by term, NIM by programme |
+| 2 | Check the eligibility rules of CT0701 (natural-disaster support) | NIM of only 0.45%, the lowest of all programmes; 57.1% of its contracts are in Ho Chi Minh City and Hanoi (52.1% for all contracts), so it is not concentrated in disaster areas | Deep dive: NIM by programme |
+| 3 | Monitor real estate, starting with the 4 real estate names in the top 10 borrowers | OD3–5 doubled in 12 months (3.06% → 6.15%) with a NIM of only 1.00% | Deep dive: OD3–5 by industry |
+| 4 | Report bad debt three ways: reported, excluding one-off large loans, and by each customer's worst debt group | 2.63% / 2.24% / 3.80%; one 390 bn loan alone turned a fall into a rise | Deep dive: OD3–5 under three definitions |
+| 5 | Use the credit bureau (CIC) mismatch list as an early-warning feed | 101 customers (825 bn, 0.84% of loans) are still group 1 internally but already group 2 at CIC | EDA notebook |
+| 6 | Find out why customers leave and restore SMALL-segment margins | Net loss of 402 customers (820 gained, 1,222 lost); SMALL NII −11.5% | Deep dive: customers with loans |
 
 ## Dashboard
 
