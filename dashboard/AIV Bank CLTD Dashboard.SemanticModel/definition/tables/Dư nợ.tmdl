@@ -498,6 +498,409 @@ table 'Dư nợ'
 			RETURN IF ( ISBLANK ( d ), "–", IF ( d > 0, UNICHAR ( 9650 ), IF ( d < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( d ), "0.0%", "vi-VN" ) )
 		displayFolder: 04 KPI card
 
+	measure 'NIM YTD' =
+			VAR d = MAX ( dim_date[month_end_date] )
+			RETURN DIVIDE ( [NII YTD], [DNBQ YTD] ) * 12 / MONTH ( d )
+		formatString: 0.00%
+		displayFolder: 10 Phân tích sâu
+		lineageTag: 1b7f2fd6-5902-4d75-bb78-a8923760a9ee
+
+	measure 'NIM YTD LY' =
+			VAR d = MAX ( dim_date[month_end_date] )
+			RETURN CALCULATE ( [NIM YTD], REMOVEFILTERS ( dim_date ), dim_date[month_end_date] = EOMONTH ( d, -12 ) )
+		formatString: 0.00%
+		displayFolder: 10 Phân tích sâu
+		lineageTag: 67939680-77b5-48a3-9db3-12159fba37af
+
+	measure 'NIM YTD Δ cùng kỳ (giá trị)' = IF ( NOT ISBLANK ( [NIM YTD LY] ) && NOT ISBLANK ( [NIM YTD] ), [NIM YTD] - [NIM YTD LY] )
+		formatString: 0.00%
+		displayFolder: 10 Phân tích sâu
+		lineageTag: 0bc658a3-1d15-437d-99dd-eaa77dba0c4a
+
+	measure 'KPI NIM YTD' = IF ( ISBLANK ( [NIM YTD] ), "–", FORMAT ( [NIM YTD] * 100, "#,0.00", "vi-VN" ) )
+		displayFolder: 10 Phân tích sâu\KPI
+		lineageTag: 07c4546a-3e54-4088-80e7-607f9a974d2f
+
+	measure 'NIM YTD Δ cùng kỳ (ngắn)' =
+			VAR x = [NIM YTD Δ cùng kỳ (giá trị)]
+			RETURN IF ( ISBLANK ( x ), "–", IF ( x > 0, UNICHAR ( 9650 ), IF ( x < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( x ) * 100, "0.00", "vi-VN" ) & " điểm %" )
+		displayFolder: 10 Phân tích sâu\KPI
+		lineageTag: 1a9cdce7-965c-4ac1-a3ee-a6766e3a75e2
+
+	measure 'Màu NIM YTD Δ cùng kỳ' =
+			VAR x = [NIM YTD Δ cùng kỳ (giá trị)]
+			RETURN IF ( ISBLANK ( x ) || x = 0, "#5F5E5A", IF ( x > 0, "#447A2A", "#A32D2D" ) )
+		displayFolder: 10 Phân tích sâu\Màu
+		lineageTag: 55a33dc5-fb62-408c-be8d-a53d082dd8f6
+
+	measure 'Tăng trưởng DNBQ và NII' =
+			VAR a = [DNBQ YTD Δ cùng kỳ (giá trị)]
+			VAR n = [NII YTD Δ cùng kỳ (giá trị)]
+			RETURN
+				IF (
+					ISBLANK ( a ) || ISBLANK ( n ), "–",
+					"DNBQ " & IF ( a > 0, UNICHAR ( 9650 ), IF ( a < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( a ), "0.0%", "vi-VN" )
+						& "  ·  NII " & IF ( n > 0, UNICHAR ( 9650 ), IF ( n < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( n ), "0.0%", "vi-VN" )
+				)
+		displayFolder: 10 Phân tích sâu\KPI
+		lineageTag: 2dcdc175-f9a5-479d-af1e-e31f524b831b
+
+	measure 'Màu Tăng trưởng DNBQ và NII' =
+			VAR a = [DNBQ YTD Δ cùng kỳ (giá trị)]
+			VAR n = [NII YTD Δ cùng kỳ (giá trị)]
+			RETURN IF ( ISBLANK ( a ) || ISBLANK ( n ), "#5F5E5A", IF ( n < a, "#A32D2D", "#447A2A" ) )
+		displayFolder: 10 Phân tích sâu\Màu
+		lineageTag: 767d102d-ce0b-4f4e-ad36-46d9fd4baf60
+
+	measure 'NIM tháng' =
+			VAR d = MAX ( dim_date[month_end_date] )
+			VAR n = CALCULATE ( SUM ( fact_income_monthly[nii_mtd] ), TREATAS ( { d }, fact_income_monthly[period_end_date] ) )
+			VAR a = CALCULATE ( SUM ( fact_income_monthly[avg_balance_vnd] ), TREATAS ( { d }, fact_income_monthly[period_end_date] ) )
+			RETURN DIVIDE ( n, a ) * 12
+		formatString: 0.00%
+		displayFolder: 10 Phân tích sâu
+		lineageTag: b98c779c-0ff7-42dc-bd64-92008323af9c
+
+	measure 'Xu hướng NIM tháng' =
+			VAR sel = MAX ( dim_date[month_end_date] )
+			VAR mth = MAX ( 'Trục tháng'[Tháng] )
+			RETURN IF ( mth <= sel, CALCULATE ( [NIM tháng], dim_date[month_end_date] = mth ) )
+		formatString: 0.00%
+		displayFolder: 10 Phân tích sâu\Xu hướng
+		lineageTag: 26638fe3-f6bd-45e9-8964-32d5318f2367
+
+	measure 'Xu hướng NIM ngắn hạn' =
+			VAR sel = MAX ( dim_date[month_end_date] )
+			VAR mth = MAX ( 'Trục tháng'[Tháng] )
+			RETURN IF ( mth <= sel, CALCULATE ( [NIM tháng], dim_loan_contract[term_group] = "ST", dim_date[month_end_date] = mth ) )
+		formatString: 0.00%
+		displayFolder: 10 Phân tích sâu\Xu hướng
+		lineageTag: b41fbfd2-e939-4c6e-b19d-4c8f9d2043d6
+
+	measure 'Xu hướng NIM trung dài hạn' =
+			VAR sel = MAX ( dim_date[month_end_date] )
+			VAR mth = MAX ( 'Trục tháng'[Tháng] )
+			RETURN IF ( mth <= sel, CALCULATE ( [NIM tháng], dim_loan_contract[term_group] = "MLT", dim_date[month_end_date] = mth ) )
+		formatString: 0.00%
+		displayFolder: 10 Phân tích sâu\Xu hướng
+		lineageTag: 67d4b77f-0883-44fd-8975-1f6247346817
+
+	measure 'Tỷ trọng DNBQ YTD' = DIVIDE ( [DNBQ YTD], CALCULATE ( [DNBQ YTD], ALLSELECTED ( dim_campaign ) ) )
+		formatString: 0.0%
+		displayFolder: 10 Phân tích sâu\Chương trình
+		lineageTag: 84c79fad-567a-45cc-9653-1143c865fcda
+
+	measure 'Δ NIM YTD (điểm %)' = IF ( NOT ISBLANK ( [NIM YTD] ) && NOT ISBLANK ( [NIM YTD LY] ), ( [NIM YTD] - [NIM YTD LY] ) * 100 )
+		formatString: +0.00;-0.00;0.00
+		displayFolder: 10 Phân tích sâu\Chương trình
+		lineageTag: fdf889eb-eb7d-4ab5-8775-793f1432826d
+
+	measure 'Đóng góp Δ NIM (điểm %)' =
+			// Tách thay đổi NIM YTD so với cùng kỳ: hiệu ứng cơ cấu (w1 - w0) * (n0 - N0) + hiệu ứng biên w1 * (n1 - n0).
+			// Nhóm mới xuất hiện / không còn lấy NIM hiện có làm gốc, để không tính nhầm cả nhóm thành hiệu ứng biên.
+			VAR a1 = [DNBQ YTD]
+			VAR a0 = [DNBQ YTD LY]
+			VAR w1 = DIVIDE ( a1, CALCULATE ( [DNBQ YTD], ALLSELECTED ( dim_campaign ) ) ) + 0
+			VAR w0 = DIVIDE ( a0, CALCULATE ( [DNBQ YTD LY], ALLSELECTED ( dim_campaign ) ) ) + 0
+			VAR n1 = [NIM YTD]
+			VAR n0 = [NIM YTD LY]
+			VAR b0 = IF ( ISBLANK ( n0 ), n1, n0 )
+			VAR b1 = IF ( ISBLANK ( n1 ), n0, n1 )
+			VAR N0 = CALCULATE ( [NIM YTD LY], ALLSELECTED ( dim_campaign ) )
+			RETURN
+				IF (
+					ISINSCOPE ( dim_campaign[campaign_name] ),
+					IF ( NOT ( ISBLANK ( a1 ) && ISBLANK ( a0 ) ), ( ( w1 - w0 ) * ( b0 - N0 ) + w1 * ( b1 - b0 ) ) * 100 ),
+					[Δ NIM YTD (điểm %)]
+				)
+		formatString: +0.00;-0.00;0.00
+		displayFolder: 10 Phân tích sâu\Chương trình
+		lineageTag: 048366a7-4a55-462c-8765-c1f5f3a25cfc
+
+	measure 'KH NII YTD' =
+			VAR d = MAX ( dim_date[month_end_date] )
+			VAR y = YEAR ( d )
+			RETURN CALCULATE ( SUM ( fact_plan[plan_nii_vnd] ), fact_plan[month_id] >= y * 100 + 1, fact_plan[month_id] <= y * 100 + MONTH ( d ) )
+		formatString: #,0
+		displayFolder: 10 Phân tích sâu\Kế hoạch
+		lineageTag: a6f23090-b8c7-46ae-ab50-a74b97763a1a
+
+	measure 'KH dư nợ' =
+			VAR d = MAX ( dim_date[month_end_date] )
+			RETURN CALCULATE ( SUM ( fact_plan[plan_balance_vnd] ), fact_plan[month_id] = YEAR ( d ) * 100 + MONTH ( d ) )
+		formatString: #,0
+		displayFolder: 10 Phân tích sâu\Kế hoạch
+		lineageTag: fccb3b17-8108-4b0e-9933-267196510e61
+
+	measure 'Hoàn thành KH NII YTD' =
+			// Kế hoạch chỉ có theo ĐVKD, nên không tính khi đang lọc phân khúc / sản phẩm
+			IF ( NOT ( ISFILTERED ( dim_segment ) || ISFILTERED ( dim_product ) || ISFILTERED ( dim_customer ) ), DIVIDE ( [NII YTD] * 1e9, [KH NII YTD] ) )
+		formatString: 0.0%
+		displayFolder: 10 Phân tích sâu\Kế hoạch
+		lineageTag: 15f2c8d8-9109-4c5b-9eca-c5c1c515e1b3
+
+	measure 'Hoàn thành KH dư nợ' = IF ( NOT ( ISFILTERED ( dim_segment ) || ISFILTERED ( dim_product ) || ISFILTERED ( dim_customer ) ), DIVIDE ( [Dư nợ], [KH dư nợ] ) )
+		formatString: 0.0%
+		displayFolder: 10 Phân tích sâu\Kế hoạch
+		lineageTag: 2f54bb86-a681-4805-88be-b4ee0c7e1fb0
+
+	measure 'KPI Hoàn thành KH NII YTD' = IF ( ISBLANK ( [Hoàn thành KH NII YTD] ), "–", FORMAT ( [Hoàn thành KH NII YTD] * 100, "#,0.0", "vi-VN" ) )
+		displayFolder: 10 Phân tích sâu\KPI
+		lineageTag: 1e8e29f9-2b9c-4a8f-931f-769b2d436c06
+
+	measure 'Nhãn hoàn thành KH dư nợ' =
+			VAR x = [Hoàn thành KH dư nợ]
+			RETURN IF ( ISBLANK ( x ), "–", "Dư nợ đạt " & FORMAT ( x, "0.0%", "vi-VN" ) & " kế hoạch" )
+		displayFolder: 10 Phân tích sâu\KPI
+		lineageTag: c74c102f-2836-48d9-b4eb-f3451bcc4e96
+
+	measure 'Màu hoàn thành KH dư nợ' =
+			VAR x = [Hoàn thành KH dư nợ]
+			RETURN IF ( ISBLANK ( x ), "#5F5E5A", IF ( x >= 1, "#447A2A", "#A32D2D" ) )
+		displayFolder: 10 Phân tích sâu\Màu
+		lineageTag: 38097d7c-3df9-4092-84bc-dc89e3fc64f6
+
+	measure 'Số ĐVKD đạt cả hai KH' =
+			VAR d = MAX ( dim_date[month_end_date] )
+			VAR mid = YEAR ( d ) * 100 + MONTH ( d )
+			VAR t =
+				ADDCOLUMNS (
+					VALUES ( dim_branch[branch_id] ),
+					"@b", [Dư nợ],
+					"@pb", CALCULATE ( SUM ( fact_plan[plan_balance_vnd] ), fact_plan[month_id] = mid ),
+					"@n", [NII tháng] * 1e9,
+					"@pn", CALCULATE ( SUM ( fact_plan[plan_nii_vnd] ), fact_plan[month_id] = mid )
+				)
+			VAR tot = COUNTROWS ( FILTER ( t, NOT ISBLANK ( [@pb] ) ) )
+			VAR ok = COUNTROWS ( FILTER ( t, NOT ISBLANK ( [@pb] ) && [@b] >= [@pb] && [@n] >= [@pn] ) ) + 0
+			RETURN IF ( ISFILTERED ( dim_segment ) || ISFILTERED ( dim_product ) || ISFILTERED ( dim_customer ) || ISBLANK ( tot ), "–", ok & "/" & tot & " ĐVKD" )
+		displayFolder: 10 Phân tích sâu\KPI
+		lineageTag: 052beecb-882e-4dbf-a51e-35571ec4818e
+
+	measure 'Tỷ lệ OD3-5 loại KV đột biến' = CALCULATE ( [Tỷ lệ OD35], fact_loan_balance[contract_id] <> "AIV-LN-0007842" )
+		formatString: 0.00%
+		displayFolder: 10 Phân tích sâu\Nợ xấu
+		lineageTag: 04df8500-5f5d-4b45-aa8b-753a206cfd69
+
+	measure 'Tỷ lệ OD3-5 loại KV đột biến LY' = CALCULATE ( [Tỷ lệ OD35 LY], fact_loan_balance[contract_id] <> "AIV-LN-0007842" )
+		formatString: 0.00%
+		displayFolder: 10 Phân tích sâu\Nợ xấu
+		lineageTag: 194bcd37-1acb-4542-92e8-b77d87b47fb2
+
+	measure 'Tỷ lệ OD3-5 theo nhóm xấu nhất KH' =
+			// Mỗi KH được quy về nhóm nợ cao nhất trong các HĐ của KH đó (cách CIC dùng)
+			VAR d = MAX ( dim_date[month_end_date] )
+			RETURN
+				CALCULATE (
+					VAR t =
+						ADDCOLUMNS (
+							SUMMARIZE ( fact_loan_balance, dim_loan_contract[cif] ),
+							"@w", CALCULATE ( MAX ( fact_loan_balance[debt_group_id] ) ),
+							"@b", CALCULATE ( SUM ( fact_loan_balance[balance_vnd] ) )
+						)
+					RETURN DIVIDE ( SUMX ( FILTER ( t, [@w] >= 3 ), [@b] ), SUMX ( t, [@b] ) ) + 0,
+					REMOVEFILTERS ( dim_date ),
+					dim_date[date] = d,
+					REMOVEFILTERS ( dim_debt_group )
+				)
+		formatString: 0.00%
+		displayFolder: 10 Phân tích sâu\Nợ xấu
+		lineageTag: beacc196-1e6a-4026-96c5-403cbd4147ef
+
+	measure 'KPI OD3-5 loại KV đột biến' = IF ( ISBLANK ( [Tỷ lệ OD3-5 loại KV đột biến] ), "–", FORMAT ( [Tỷ lệ OD3-5 loại KV đột biến] * 100, "#,0.00", "vi-VN" ) )
+		displayFolder: 10 Phân tích sâu\KPI
+		lineageTag: dc740b57-1a21-462c-b30c-c934d5a6a596
+
+	measure 'OD3-5 loại KV Δ cùng kỳ (giá trị)' = IF ( NOT ISBLANK ( [Tỷ lệ OD3-5 loại KV đột biến LY] ), [Tỷ lệ OD3-5 loại KV đột biến] - [Tỷ lệ OD3-5 loại KV đột biến LY] )
+		formatString: 0.00%
+		displayFolder: 10 Phân tích sâu\Nợ xấu
+		lineageTag: 629e8eb0-925e-4e81-abce-6374936e454d
+
+	measure 'OD3-5 loại KV Δ cùng kỳ (ngắn)' =
+			VAR x = [OD3-5 loại KV Δ cùng kỳ (giá trị)]
+			RETURN IF ( ISBLANK ( x ), "–", IF ( x > 0, UNICHAR ( 9650 ), IF ( x < 0, UNICHAR ( 9660 ), UNICHAR ( 8594 ) ) ) & " " & FORMAT ( ABS ( x ) * 100, "0.00", "vi-VN" ) & " điểm %" )
+		displayFolder: 10 Phân tích sâu\KPI
+		lineageTag: f606029f-afca-4404-83a1-7ea7ab60f37e
+
+	measure 'Màu OD3-5 loại KV Δ cùng kỳ' =
+			VAR x = [OD3-5 loại KV Δ cùng kỳ (giá trị)]
+			RETURN IF ( ISBLANK ( x ) || x = 0, "#5F5E5A", IF ( x > 0, "#A32D2D", "#447A2A" ) )
+		displayFolder: 10 Phân tích sâu\Màu
+		lineageTag: 60011194-f07f-43ee-8f10-134c24bb7d4b
+
+	measure 'Nhãn OD3-5 các cách đo' =
+			IF (
+				ISBLANK ( [Tỷ lệ OD35] ), "–",
+				"Báo cáo " & FORMAT ( [Tỷ lệ OD35], "0.00%", "vi-VN" ) & "  ·  Nhóm xấu nhất KH " & FORMAT ( [Tỷ lệ OD3-5 theo nhóm xấu nhất KH], "0.00%", "vi-VN" )
+			)
+		displayFolder: 10 Phân tích sâu\KPI
+		lineageTag: d98b37eb-0748-4746-a5fb-158cd3afa87a
+
+	measure 'Xu hướng OD3-5 báo cáo' =
+			VAR sel = MAX ( dim_date[month_end_date] )
+			VAR mth = MAX ( 'Trục tháng'[Tháng] )
+			RETURN IF ( mth <= sel, CALCULATE ( [Tỷ lệ OD35], dim_date[month_end_date] = mth ) )
+		formatString: 0.00%
+		displayFolder: 10 Phân tích sâu\Xu hướng
+		lineageTag: 5d067ca7-8834-4faf-ba2b-3019d4dc2e6e
+
+	measure 'Xu hướng OD3-5 loại KV đột biến' =
+			VAR sel = MAX ( dim_date[month_end_date] )
+			VAR mth = MAX ( 'Trục tháng'[Tháng] )
+			RETURN IF ( mth <= sel, CALCULATE ( [Tỷ lệ OD3-5 loại KV đột biến], dim_date[month_end_date] = mth ) )
+		formatString: 0.00%
+		displayFolder: 10 Phân tích sâu\Xu hướng
+		lineageTag: 95ed7067-8188-4169-9ae7-0fee2d6e4505
+
+	measure 'Xu hướng OD3-5 nhóm xấu nhất KH' =
+			VAR sel = MAX ( dim_date[month_end_date] )
+			VAR mth = MAX ( 'Trục tháng'[Tháng] )
+			RETURN IF ( mth <= sel, CALCULATE ( [Tỷ lệ OD3-5 theo nhóm xấu nhất KH], dim_date[month_end_date] = mth ) )
+		formatString: 0.00%
+		displayFolder: 10 Phân tích sâu\Xu hướng
+		lineageTag: a7440693-b757-4f8c-b6f3-9a950153fc69
+
+	measure 'LS BQ ngắn hạn VND' =
+			// Lãi suất bình quân gia quyền theo dư nợ, chỉ HĐ ngắn hạn VND để không bị lẫn cơ cấu loại tiền / kỳ hạn
+			VAR d = MAX ( dim_date[month_end_date] )
+			RETURN
+				CALCULATE (
+					DIVIDE (
+						SUMX ( fact_loan_balance, fact_loan_balance[balance_vnd] * RELATED ( dim_loan_contract[interest_rate_pct] ) ),
+						SUM ( fact_loan_balance[balance_vnd] )
+					) / 100,
+					REMOVEFILTERS ( dim_date ),
+					dim_date[date] = d,
+					dim_loan_contract[term_group] = "ST",
+					dim_loan_contract[ccy] = "VND"
+				)
+		formatString: 0.00%
+		displayFolder: 10 Phân tích sâu\Xếp hạng
+		lineageTag: d58ac52c-ebdf-499a-9d76-0a63a2057a91
+
+	measure 'Thứ tự xếp hạng' = SWITCH ( SELECTEDVALUE ( dim_customer[credit_rating] ), "AAA", 1, "AA", 2, "A", 3, "BBB", 4, "BB", 5, "B", 6, "CCC", 7 )
+		formatString: 0
+		displayFolder: 10 Phân tích sâu\Xếp hạng
+		lineageTag: e6825ca6-2eec-487e-8554-6983acab6abc
+
+	measure 'Số KH còn dư nợ' =
+			VAR d = MAX ( dim_date[month_end_date] )
+			RETURN CALCULATE ( COUNTROWS ( SUMMARIZE ( fact_loan_balance, dim_loan_contract[cif] ) ), REMOVEFILTERS ( dim_date ), dim_date[date] = d )
+		formatString: #,0
+		displayFolder: 10 Phân tích sâu\Khách hàng
+		lineageTag: 45e2c058-6772-45e5-b556-e8df721e60cc
+
+	measure 'Dư nợ BQ/KH (tỷ)' = DIVIDE ( [Dư nợ (tỷ)], [Số KH còn dư nợ] )
+		formatString: #,0.00
+		displayFolder: 10 Phân tích sâu\Khách hàng
+		lineageTag: f3c2bcd0-3f23-4f07-bb0a-7ddd9af4108c
+
+	measure 'Xu hướng Số KH còn dư nợ' =
+			VAR sel = MAX ( dim_date[month_end_date] )
+			VAR mth = MAX ( 'Trục tháng'[Tháng] )
+			RETURN IF ( mth <= sel, CALCULATE ( [Số KH còn dư nợ], dim_date[month_end_date] = mth ) )
+		formatString: #,0
+		displayFolder: 10 Phân tích sâu\Xu hướng
+		lineageTag: b149ea60-d342-424f-88a5-df87515f4cc6
+
+	measure 'Xu hướng Dư nợ BQ/KH' =
+			VAR sel = MAX ( dim_date[month_end_date] )
+			VAR mth = MAX ( 'Trục tháng'[Tháng] )
+			RETURN IF ( mth <= sel, CALCULATE ( [Dư nợ BQ/KH (tỷ)], dim_date[month_end_date] = mth ) )
+		formatString: #,0.00
+		displayFolder: 10 Phân tích sâu\Xu hướng
+		lineageTag: a6ddbe58-47b4-4502-a7e3-878bfa6b7fab
+
+	measure 'Tỷ trọng TOI YTD top 20% KH' =
+			VAR d = MAX ( dim_date[month_end_date] )
+			VAR s = DATE ( YEAR ( d ), 1, 1 )
+			VAR t =
+				CALCULATETABLE (
+					ADDCOLUMNS ( SUMMARIZE ( fact_income_monthly, dim_loan_contract[cif] ), "@v", CALCULATE ( SUM ( fact_income_monthly[toi_mtd] ) ) ),
+					fact_income_monthly[period_end_date] >= s,
+					fact_income_monthly[period_end_date] <= d
+				)
+			VAR k = ROUNDUP ( COUNTROWS ( t ) * 0.2, 0 )
+			RETURN DIVIDE ( SUMX ( TOPN ( k, t, [@v], DESC ), [@v] ), SUMX ( t, [@v] ) )
+		formatString: 0.0%
+		displayFolder: 10 Phân tích sâu\Tập trung
+		lineageTag: fc6504d2-2a62-4fd7-9aa6-97d07e55cc3e
+
+	measure 'Tỷ trọng dư nợ top 20% KH' =
+			VAR d = MAX ( dim_date[month_end_date] )
+			VAR t =
+				CALCULATETABLE (
+					ADDCOLUMNS ( SUMMARIZE ( fact_loan_balance, dim_loan_contract[cif] ), "@v", CALCULATE ( SUM ( fact_loan_balance[balance_vnd] ) ) ),
+					REMOVEFILTERS ( dim_date ),
+					dim_date[date] = d
+				)
+			VAR k = ROUNDUP ( COUNTROWS ( t ) * 0.2, 0 )
+			RETURN DIVIDE ( SUMX ( TOPN ( k, t, [@v], DESC ), [@v] ), SUMX ( t, [@v] ) )
+		formatString: 0.0%
+		displayFolder: 10 Phân tích sâu\Tập trung
+		lineageTag: 5ec797bb-1d02-4cac-8ff6-86641a717558
+
+	measure 'KPI Tỷ trọng TOI top 20% KH' = IF ( ISBLANK ( [Tỷ trọng TOI YTD top 20% KH] ), "–", FORMAT ( [Tỷ trọng TOI YTD top 20% KH] * 100, "#,0.0", "vi-VN" ) )
+		displayFolder: 10 Phân tích sâu\KPI
+		lineageTag: 88926c6b-9e95-4e7f-9b63-b8718696920f
+
+	measure 'Nhãn dư nợ top 20% KH' = IF ( ISBLANK ( [Tỷ trọng dư nợ top 20% KH] ), "–", FORMAT ( [Tỷ trọng dư nợ top 20% KH], "0.0%", "vi-VN" ) & " dư nợ" )
+		displayFolder: 10 Phân tích sâu\KPI
+		lineageTag: 23a751a9-c9d0-4fe3-9f82-1a03f3474d2f
+
+	measure 'Nhãn KH TOI âm' =
+			VAR d = MAX ( dim_date[month_end_date] )
+			VAR s = DATE ( YEAR ( d ), 1, 1 )
+			VAR t =
+				CALCULATETABLE (
+					ADDCOLUMNS ( SUMMARIZE ( fact_income_monthly, dim_loan_contract[cif] ), "@v", CALCULATE ( SUM ( fact_income_monthly[toi_mtd] ) ) ),
+					fact_income_monthly[period_end_date] >= s,
+					fact_income_monthly[period_end_date] <= d
+				)
+			VAR neg = FILTER ( t, [@v] < 0 )
+			RETURN IF ( ISEMPTY ( t ), "–", FORMAT ( COUNTROWS ( neg ) + 0, "#,0", "vi-VN" ) & " KH  ·  " & FORMAT ( SUMX ( neg, [@v] ) / 1e9 + 0, "#,0.0", "vi-VN" ) & " tỷ" )
+		displayFolder: 10 Phân tích sâu\KPI
+		lineageTag: 22196200-7572-4d11-8cc4-ed9a83f4c604
+
+	measure 'Tiêu đề Hình 20' = "Hình 20: NIM năm hoá theo tháng, toàn danh mục và theo kỳ hạn (%)"
+		displayFolder: 10 Phân tích sâu\Tiêu đề
+		lineageTag: b4348342-e7bc-46cb-a727-11802387e47b
+
+	measure 'Tiêu đề Hình 21' = "Hình 21: NIM YTD theo chương trình ưu đãi đến " & [Ngày báo cáo] & " so với cùng kỳ (điểm %)"
+		displayFolder: 10 Phân tích sâu\Tiêu đề
+		lineageTag: 8bc1fbe9-d5aa-4f3f-8309-86bbbc6e5e9f
+
+	measure 'Tiêu đề Hình 22' = "Hình 22: Tỷ lệ OD3-5 theo ba cách đo (%)"
+		displayFolder: 10 Phân tích sâu\Tiêu đề
+		lineageTag: a90ca47b-2ddb-482f-91f4-a1a72c0b3c96
+
+	measure 'Tiêu đề Hình 23' = "Hình 23: OD3-5 theo ngành, đã loại khoản vay đột biến, tại " & [Ngày báo cáo] & " (%)"
+		displayFolder: 10 Phân tích sâu\Tiêu đề
+		lineageTag: 8ad311bc-aee7-482b-8331-ff2a63ce3626
+
+	measure 'Tiêu đề Hình 24' = "Hình 24: OD3-5 và lãi suất ngắn hạn VND theo xếp hạng nội bộ tại " & [Ngày báo cáo]
+		displayFolder: 10 Phân tích sâu\Tiêu đề
+		lineageTag: bd9209fc-0460-40f8-99f7-4ac226e503f4
+
+	measure 'Tiêu đề Hình 25' = "Hình 25: Số KH còn dư nợ và dư nợ bình quân mỗi KH (tỷ đồng)"
+		displayFolder: 10 Phân tích sâu\Tiêu đề
+		lineageTag: 609d8cb9-5313-4f4e-a710-b0c7feaf46e2
+
+	measure 'Màu Δ NIM chương trình' =
+			VAR x = [Δ NIM YTD (điểm %)]
+			RETURN IF ( ISBLANK ( x ) || ABS ( x ) < 0.005, "#5F5E5A", IF ( x > 0, "#447A2A", "#A32D2D" ) )
+		displayFolder: 10 Phân tích sâu\Màu
+		lineageTag: adb99805-d8c7-46f3-add3-9997b47b7829
+
+	measure 'Màu đóng góp Δ NIM' =
+			VAR x = [Đóng góp Δ NIM (điểm %)]
+			RETURN IF ( ISBLANK ( x ) || ABS ( x ) < 0.005, "#5F5E5A", IF ( x > 0, "#447A2A", "#A32D2D" ) )
+		displayFolder: 10 Phân tích sâu\Màu
+		lineageTag: d4816750-c844-41b0-9eff-5f0b9f6729bc
+
+	measure 'Màu cột OD3-5' = "#A32D2D"
+		displayFolder: 10 Phân tích sâu\Màu
+
 	column Column
 		isHidden
 		formatString: 0
