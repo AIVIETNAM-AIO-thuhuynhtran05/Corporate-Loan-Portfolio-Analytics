@@ -64,7 +64,7 @@ Five pages share one header with filters for **reporting month**, **customer seg
 
 ![Deep dive page](images/aiv-dashboard-deep-dive.png)
 
-An interactive HTML version of the first four pages is in [`dashboard/AIV_Bank_KHDN_Dashboard.html`](dashboard/AIV_Bank_KHDN_Dashboard.html). Download it and open it in a browser; it needs no Power BI license.
+An interactive HTML version of all five pages is in [`dashboard/AIV_Bank_KHDN_Dashboard.html`](dashboard/AIV_Bank_KHDN_Dashboard.html). Download it and open it in a browser; it needs no Power BI license.
 
 ## Data model
 
