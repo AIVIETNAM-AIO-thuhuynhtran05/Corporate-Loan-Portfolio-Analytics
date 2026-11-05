@@ -48,7 +48,7 @@ The main issue in H1/2026 is **the quality of growth, not its size**: loans grew
 
 ## Dashboard
 
-Four pages share one header with filters for **reporting month**, **customer segment**, and **product**. Every KPI card compares against the previous month-end and the same month last year.
+Five pages share one header with filters for **reporting month**, **customer segment**, and **product**. The first four pages compare every KPI card against the previous month-end and the same month last year.
 
 | Page | Question | Contents |
 |---|---|---|
@@ -56,12 +56,13 @@ Four pages share one header with filters for **reporting month**, **customer seg
 | Dư nợ (Loan balance) | Where does the loan book sit? | Balance by term, segment, industry (treemap), and product; top 10 business units |
 | NII/TOI | Who generates the income? | NII and TOI YTD by segment, YTD trend, top 10 customers and top 10 business units |
 | CLTD (Credit quality) | Where is risk building up? | OD2 / OD3–5 ratios and balances; debt group mix in the top 10 industries; OD ratios for the top 10 business units |
+| Phân tích chuyên sâu (Deep dive) | Why is growth not turning into income, and what is the underlying risk? | Brings the EDA findings into the report: NIM YTD vs last year, plan completion (NII YTD, loan balance, business units meeting both targets), OD3–5 excluding the one-off 390 bn loan, income concentration; monthly NIM by term; NIM by incentive programme with each programme's contribution to the NIM change; OD3–5 under three definitions; OD3–5 by industry; bad debt vs short-term VND rate by internal rating; customer count and average balance per customer |
 
 | Loan balance | NII/TOI | Credit quality |
 |---|---|---|
 | ![Loan balance page](images/aiv-dashboard-loan-balance.png) | ![NII/TOI page](images/aiv-dashboard-nii-toi.png) | ![Credit quality page](images/aiv-dashboard-credit-quality.png) |
 
-An interactive HTML version of the same four pages is in [`dashboard/AIV_Bank_KHDN_Dashboard.html`](dashboard/AIV_Bank_KHDN_Dashboard.html). Download it and open it in a browser; it needs no Power BI license.
+An interactive HTML version of the first four pages is in [`dashboard/AIV_Bank_KHDN_Dashboard.html`](dashboard/AIV_Bank_KHDN_Dashboard.html). Download it and open it in a browser; it needs no Power BI license.
 
 ## Data model
 

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "cd2847e07016a618d2c9",
   "position": {
     "x": 528,
@@ -350,13 +350,6 @@
               "expr": {
                 "Literal": {
                   "Value": "'Right'"
-                }
-              }
-            },
-            "outline": {
-              "expr": {
-                "Literal": {
-                  "Value": "'BottomOnly'"
                 }
               }
             },
