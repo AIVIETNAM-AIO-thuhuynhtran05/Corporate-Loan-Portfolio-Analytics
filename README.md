@@ -70,6 +70,8 @@ An interactive HTML version of all five pages is in [`dashboard/AIV_Bank_KHDN_Da
 
 The source is one Excel workbook with a star schema of 14 tables (about 723K rows): 10,000 corporate customers, 31,104 loan contracts, 78 business units, and month-end snapshots from 12/2023 to 06/2026.
 
+![Data model in Power BI](images/aiv-data-model.png)
+
 - **Dimensions:** `dim_customer`, `dim_loan_contract`, `dim_branch`, `dim_segment`, `dim_industry`, `dim_product`, `dim_debt_group`, `dim_campaign`, `dim_date`
 - **Facts:** `fact_loan_balance` (month-end balance per contract), `fact_income_monthly` (NII, NFI, TOI per contract and month), `fact_plan`, `fact_due_soon`, `fact_debt_group_cic`
 
