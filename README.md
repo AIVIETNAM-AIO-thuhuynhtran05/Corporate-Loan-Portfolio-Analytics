@@ -92,7 +92,7 @@ Business rules built into the DAX measures:
 - **OD2 ratio** = debt group 2 balance ÷ total balance; **OD3–5 ratio** = debt groups 3–5 balance ÷ total balance.
 - Every comparison uses the previous month-end (LM) and the same month last year (LY), so the whole report follows the reporting-month filter.
 
-The semantic model holds 154 DAX measures, grouped into numbered display folders by business area (loan balance, income, credit quality, KPI cards, conditional colours, tables, Top 10, trends, titles); helper measures sit in a hidden `99 Trung gian` folder. The EDA behind the findings is in [`notebooks/eda_descriptive_khdn.ipynb`](notebooks/eda_descriptive_khdn.ipynb) (in Vietnamese): data checks, NIM mix/rate decomposition, bad debt under three definitions, distribution and concentration analysis, and segment, industry, region and rating breakdowns.
+The semantic model groups its DAX measures into numbered display folders by business area (loan balance, income, credit quality, KPI cards, conditional colours, tables, Top 10, trends, titles, deep dive); helper measures sit in a hidden `99 Trung gian` folder. The EDA behind the findings is in [`notebooks/eda_descriptive_khdn.ipynb`](notebooks/eda_descriptive_khdn.ipynb) (in Vietnamese): data checks, NIM mix/rate decomposition, bad debt under three definitions, distribution and concentration analysis, and segment, industry, region and rating breakdowns.
 
 ## Repository structure
 
