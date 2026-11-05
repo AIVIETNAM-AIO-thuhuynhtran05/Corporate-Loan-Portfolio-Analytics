@@ -61,7 +61,7 @@
               "queryRef": "Dư nợ.DNBQ YTD",
               "nativeQueryRef": "DNBQ YTD",
               "active": true,
-              "displayName": "DNBQ YTD (tỷ)"
+              "displayName": "DNBQ (tỷ)"
             },
             {
               "field": {
@@ -141,7 +141,7 @@
               "queryRef": "Dư nợ.Đóng góp Δ NIM (điểm %)",
               "nativeQueryRef": "Đóng góp Δ NIM (điểm %)",
               "active": true,
-              "displayName": "Đóng góp vào Δ NIM"
+              "displayName": "Đóng góp Δ NIM"
             }
           ]
         }
@@ -482,7 +482,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "54D"
+                  "Value": "48D"
                 }
               }
             }
@@ -496,7 +496,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "252D"
+                  "Value": "200D"
                 }
               }
             }
@@ -510,7 +510,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "78D"
+                  "Value": "70D"
                 }
               }
             }
@@ -524,7 +524,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "56D"
+                  "Value": "52D"
                 }
               }
             }
@@ -538,7 +538,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "66D"
+                  "Value": "60D"
                 }
               }
             }
@@ -552,7 +552,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "58D"
+                  "Value": "54D"
                 }
               }
             }
@@ -566,7 +566,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "66D"
+                  "Value": "62D"
                 }
               }
             }
@@ -580,7 +580,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "82D"
+                  "Value": "74D"
                 }
               }
             }
