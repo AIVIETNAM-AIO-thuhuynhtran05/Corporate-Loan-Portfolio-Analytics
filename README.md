@@ -6,6 +6,8 @@ A loan balance and credit quality report for the corporate banking division (KHD
 
 ![Overview page](images/aiv-dashboard-overview.png)
 
+**[Read the 8-page data story report (PDF, in Vietnamese)](report/AIV_Bank_KHDN_Data_Story_062026.pdf)**
+
 ## Key numbers (30/06/2026)
 
 | Metric | Value | Change |
@@ -55,6 +57,21 @@ The main issue in H1/2026 is **the quality of growth, not its size**: loans grew
 | 5 | Use the credit bureau (CIC) mismatch list as an early-warning feed | 101 customers (825 bn, 0.84% of loans) are still group 1 internally but already group 2 at CIC | EDA notebook |
 | 6 | Find out why customers leave and restore SMALL-segment margins | Net loss of 402 customers (820 gained, 1,222 lost); SMALL NII −11.5% | Deep dive: customers with loans |
 
+## Report
+
+The findings and recommendations above are written up as an 8-page data story in Vietnamese: [`report/AIV_Bank_KHDN_Data_Story_062026.pdf`](report/AIV_Bank_KHDN_Data_Story_062026.pdf). Each section opens with its conclusion and the number behind it.
+
+| Section | What it covers |
+|---|---|
+| Business overview | Loan book, income and credit quality at 30/06/2026 against a year earlier |
+| Problem | Why growth is not turning into income, and the four questions the analysis answers |
+| Data processing | Source tables, quality checks, metric definitions, and the measurement rules that keep the figures correct |
+| EDA | Distributions, concentration, and the main trends |
+| Analysis | What drove the NIM decline, the one-off 390 bn loan versus underlying risk, ratings and pricing |
+| Recommendations | Eight actions, each with its evidence |
+
+[![Report pages: cover, problem, NIM analysis, recommendations](images/aiv-report-preview.png)](report/AIV_Bank_KHDN_Data_Story_062026.pdf)
+
 ## Dashboard
 
 Five pages share one header with filters for **reporting month**, **customer segment**, and **product**. The first four pages compare every KPI card against the previous month-end and the same month last year.
@@ -103,6 +120,8 @@ The semantic model groups its DAX measures into numbered display folders by busi
 │   ├── AIV Bank CLTD Dashboard.SemanticModel/  # tables, relationships, DAX (TMDL)
 │   └── AIV_Bank_KHDN_Dashboard.html            # interactive HTML version
 ├── images/                                     # page screenshots
+├── report/
+│   └── AIV_Bank_KHDN_Data_Story_062026.pdf     # 8-page data story report (Vietnamese)
 └── notebooks/
     └── eda_descriptive_khdn.ipynb              # EDA notebook (Vietnamese)
 ```
